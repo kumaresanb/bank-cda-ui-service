@@ -1,0 +1,63 @@
+.mandateIcon{
+    .list-inline-item{font-size:15px;color: #2373a3;cursor:pointer;}
+     ul{margin-bottom: 0px;}
+     .list-inline-item span{margin-right: 0.5rem;}
+     .list-inline-item:not(:last-child){margin-right: 1.5rem;}
+     i{font-size: 20px;color:#373737;vertical-align: middle;}
+}
+
+.mandate-queues{
+    label,span{display:block}
+    label{margin-bottom: 0;font-size: 14px;}
+    .list-group-item{padding:0;border:0;font-size: 13px;border-top:1px solid #eaeaea;cursor:pointer;}
+    .list-group-item:first-child{border-top:0px;}
+    .badge{font-size: 16px;color:#2373a3;font-weight: 100;}
+    .list-group-item:focus, .list-group-item:hover{z-index: unset;color:#2373a3;}
+    .mat-card{padding:15px;padding-bottom:0px;border: 1px solid #c1c1c1;border-radius: 8px 0 8px;min-height: 204px;box-shadow: 1px 1px 0 #c3c3c3;}
+     h6{color:#6d2a32;padding-left: 0.5rem;}
+     .col-3.d-inline-flex{position: relative;left: 6%;}
+     i.fa.fa-long-arrow-right {font-size: 3rem;position: absolute;top: -1rem;}
+     .refreshIcon{span{position: absolute;right: 29px;top: -19px;font-size: 10px;}}
+    .mat-expansion-panel-header i{color: #00476d;}
+    .mat-expansion-panel-header{padding: 0;height:auto !important;}
+    .mat-expansion-panel:not([class*=mat-elevation-z]){box-shadow: none;}
+    .mat-expansion-panel-header-title{margin-right: -29px !important;}
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+        background: transparent !important;
+    }
+
+    .confirmationStatus{
+        // .paperMandate{background: #ff8500; color: #fff;text-align: center;font-size: 10px;border-radius:4px;}
+        // .eMandate{background: #477c29;color: #fff;text-align: center;font-size: 10px;border-radius:4px;}
+        // .onUs{background: #00476d;color: #fff;text-align: center;font-size: 10px;border-radius:4px;}
+        .table th span{color: #00476d;text-align: center;font-size: 10px;}
+        .table td, .table th {padding: 0.3rem 0.2rem;}
+        .table td{font-size: 13px;}
+        tfoot{border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;font-size: 13px;}
+        table tbody td:nth-child(2), table tbody td:nth-child(3), table tfoot th:nth-child(2), table tfoot th:nth-child(3)
+        {text-align: center;}  
+    }
+
+    .bankProcessingStatus{
+        .badge{color:#ff8500;}
+    }
+
+    .aegingBlock{
+        .table th {padding: 0.3rem 0.2rem;font-size: 12px;border: 0;color: #00476d;}
+        .table td{font-size: 13px;padding: 0.1rem;}
+        table tbody td:nth-child(2), table tbody td:nth-child(3){text-align: center;}  
+    }
+}
+
+.mandateGrid{
+    margin-top: 1.5rem;
+    .mat-card{padding:15px;padding-bottom:0px;border: 1px solid #c1c1c1;border-radius: 10px 0 10px;}
+    // span{font-size: 14px;padding-top: 4px;padding-left:15px; }
+}
+
+
+
+
+
+
+

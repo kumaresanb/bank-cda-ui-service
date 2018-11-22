@@ -1,0 +1,253 @@
+<div class="container-fluid">
+        <!-- <div class="page-loader-icon"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> -->
+    <div class="page-header">
+        <div class="row  my-3">
+            <div class="col-md-4">
+                <h4 class="text-orange">Mandate Workbench</h4>
+            </div>
+
+            <div class="col-md-8 text-right small align-self-end">
+                    <div class="mandateIcon">
+                            <ul class="list-inline">
+                                <li class="list-inline-item" [matMenuTriggerFor]="menu1">
+                                        <a><span><svg-icon src="assets/images/Artboard 2.svg"></svg-icon></span>Enquiry
+                                            <mat-menu #menu1="matMenu">
+                                                <button mat-menu-item  [routerLink]="['/enquiry']">Mandate Enquiry</button>
+                                                <button mat-menu-item [routerLink]="['/enquiry']" (click)="changeTabIndex(2)">File Enquiry</button>
+                                            </mat-menu>
+                                        </a>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </li>
+
+                                <li class="list-inline-item">
+                                    <a [routerLink]="['/bulkupload']"><span><svg-icon src="assets/images/Artboard 3.svg">
+                                    </svg-icon></span>Bulk Upload</a>
+                                </li>
+                                <li class="list-inline-item" [matMenuTriggerFor]="menu">
+                                    <a><span><svg-icon src="assets/images/Artboard 4.svg"></svg-icon></span>Capture Mandate
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item  [routerLink]="['/createmandate']">Paper Mandate</button>
+                                            <button mat-menu-item>E mandate</button>
+                                        </mat-menu>
+                                    </a>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </li>
+                                <li class="list-inline-item" [routerLink]="['/mandateuploadgrid']">Bulk File View</li>
+                            </ul>
+                       </div>
+                </div>
+            </div>
+        <hr>
+    </div>
+
+    <div class="">
+            <mat-accordion>
+                <div class="row mandate-queues mt-3 mb-2">
+                    <div class="col-12">
+                        <mat-expansion-panel [expanded]="true" hideToggle="true" #queueIcon>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <div class="row w-100">
+                                            <div class="col-3 d-inline-flex">
+                                                <i class="fa fa-university" aria-hidden="true"></i> <h6>Corporate Internal Processing</h6>
+                                            </div>
+                                            <div class="col-1 text-right">
+                                                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-3 d-inline-flex">
+                                                <i class="fa fa-university" aria-hidden="true"></i> <h6>Banks Processing Status</h6>
+                                            </div>
+                                            <div class="col-1 text-right">
+                                                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-3 d-inline-flex">
+                                                <i class="fa fa-university" aria-hidden="true"></i> <h6>Destination Bank Confirmation</h6>
+                                            </div>
+                                        </div>
+                                    </mat-panel-title>
+                                    <i *ngIf="!queueIcon.expanded" class="fa fa-plus" aria-hidden="true"></i>
+                                    <i *ngIf="queueIcon.expanded" class="fa fa-minus" aria-hidden="true"></i>
+                                </mat-expansion-panel-header>
+
+                                <div class="row mandate-queues">
+                                        <div class="col-12 text-right refreshIcon">
+                                                <span (click)="refresh()"><svg-icon src="assets/images/Artboard 5.svg">
+                                                </svg-icon>Refresh</span>
+                                        </div>
+                                        <div class="col">
+                                            <mat-card>
+                                              <div class="row">
+                                                <div class="col-12">
+                                                    <ul class="list-group" *ngFor="let corp of corpStatus" (click)="paginationReset() || fetchDataOnSelectedCorpQue(corp[2],corp[1],corp[0])" >
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center" [routerLink]="['/mandatequeuegrid',{'qDesc':corp[2],'qCode': corp[1],'qCount':corp[0]}]">
+                                                        {{corp[2]}}<span class="badge">{{corp[0]}}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                              </div>
+                                            </mat-card>
+                                        </div>
+                                        <div class="col bankProcessingStatus">
+                                            <mat-card>
+                                                <ul class="list-group" *ngFor="let bank of bankStatus" (click)="paginationReset() || fetchDataOnSelectedCorpQue(bank[2],bank[1],bank[0])">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center" [routerLink]="['/mandatequeuegrid',{'qDesc':bank[2],'qCode': bank[0],'qCount':bank[1]}]" >
+                                                        {{bank[2]}}<span class="badge">{{bank[1]}}</span>
+                                                    </li>
+                                                </ul>
+                                            </mat-card>
+                                        </div>
+                                        <div class="col confirmationStatus">
+                                            <mat-card>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <table class="table table-borderless">
+                                                                    <thead>
+                                                                        <tr>
+                                                                        <th></th>
+                                                                        <th><span>Paper</span></th>
+                                                                        <th><span>Esign</span></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <th>Total</th>
+                                                                            <th class="text-orange">{{paperMandateTotalCount}}</th>
+                                                                            <th class="text-green">{{eMandateTotalCount}}</th>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                    <tbody *ngFor="let confStatus of confirmationStatus">
+                                                                        <tr>
+                                                                            <td>{{confStatus[3]}}</td>
+                                                                            <td>{{confStatus[0]}}</td>
+                                                                            <td>{{confStatus[1]}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                        </div>
+                                                    </div>
+                                            </mat-card>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <mat-card>
+                                                    <div class="row aegingBlock">
+                                                            <div class="col-12">
+                                                                <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th>Paper Mandate</th>
+                                                                                <th>E- Mandate</th>
+                                                                                <th>OnUS</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                         <tbody *ngFor="let ageStatus of ageingStatus">
+                                                                            <tr>
+                                                                                <td>{{ageStatus[2]}}</td>
+                                                                                <td>{{ageStatus[0]}}</td>
+                                                                                <td>{{ageStatus[1]}}</td>
+                                                                                <td>0</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                            </div>
+                                                        </div>
+                                            </mat-card>
+                                        </div> -->
+                                    </div>
+                        </mat-expansion-panel>
+                    </div>
+                </div>
+            </mat-accordion>
+    </div>
+
+    <!-- <div class="mandateGrid tableLayout">
+        <div class="row">
+              <div class="col-12">
+                    <mat-card>
+                        <div class="grid-header">
+                            <div class="pull-left d-flex">
+                                <h5 class="text-blue">{{qDesc}}</h5>
+                            </div>
+                            <div class="pull-right d-flex">
+                                    <span class="mr-3">{{showingRows}} out of {{qCount}}</span>
+                                    <label for="email">Result per page:</label>
+                                    <select class="form-control"  [(value)]="selected" (click)="pageChanged($event)">
+                                        <option *ngFor="let selectRange of resultRangeValue"  [value]="selectRange.value">{{ selectRange.viewValue }}</option>
+                                    </select>
+                                    <span><i class="fa fa-times" aria-hidden="true"></i> Close</span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 px-0">
+                                    <span class="font10 text-blue pl-3">Select All</span>
+                                    <table class="table table-bordered table-striped ">
+                                        <thead>
+                                            <tr>
+                                                <th *ngIf="showAuthAction">
+                                                    <mat-checkbox [(ngModel)]='checkedForAll'></mat-checkbox>
+                                                </th>
+                                                <th *ngFor="let header of tableHeader">{{getSplitWord(header)}}<span>{{item1.join(" ")}}</span><br><span>{{item2.join(" ")}}</span></th>
+                                                <th (click) = "gridsearch=!gridsearch"><i class="fa fa-search" aria-hidden="true"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr  class="gridSearch" *ngIf="gridsearch">
+                                                        <td *ngIf="showAuthAction">
+
+                                                        </td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.mndRefNo"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.statusDesc"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.mandateType"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.amt"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.payerAccNum"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.payerBankCode"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.createdBy"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.createdDate"   (ngModelChange)="gridsearchTable($event)"></td>
+                                                        <td></td>
+                                                    </tr>
+                                             <tr *ngFor="let data of mandateObj" (click)="viewMandate(data.mndRefNo)">
+                                                <td *ngIf="showAuthAction">
+                                                    <mat-checkbox [(ngModel)]="data.checked"></mat-checkbox>
+                                                </td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.mndRefNo}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.processStatus.statusDesc}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.mandateType}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.amt}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.payerAccNum}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.payerBankCode}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.createdBy}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)">{{data.createdDate | date: dateFormat}}</td>
+                                                <td (click)="viewMandate(data.mndRefNo)"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 mb-4">
+                                <div class="mr-auto"></div>
+                                <div class="col-4"  *ngIf="showAuthAction">
+                                    <button class="btn approveBtn mr-3">
+                                        Approve
+                                        <i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn rejectBtn">
+                                            Reject
+                                            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col-3 text-right mandatePagination">
+                                        <button class="btn btn-default " (click)="previousButtonClicked($event)" [disabled]="previousDisabled"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+                                        <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="pagination.currPage"> / {{pagination.totalPages}}
+                                        <button class="btn btn-default " (click)="nextButtonClicked($event)" [disabled]="nextDisabled">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                    </mat-card>
+              </div>
+            </div>
+        </div> -->
+</div>
+
+

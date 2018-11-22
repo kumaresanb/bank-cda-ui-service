@@ -1,0 +1,19 @@
+.hompageSec{
+    margin-top:4rem;
+    .card{
+        margin-bottom: 1rem;box-shadow: 3px 3px 0 #eeeeee;border-radius: 8px;cursor: pointer;
+        .card-body{
+            padding: 1rem;background:#f7f7f7;border-radius: 8px;transition:all 0.3s ease;
+            span{font-size: 3rem;color:#00476d;}
+            h6{margin-bottom: 0;font-size: 0.9rem;color: #00476d;margin-top: 0.3rem;}
+            
+        }
+        .card-body:hover{background:#ff8500;}
+        .card-body:hover span, .card-body:hover h6{color: #fff;}
+    }
+    p{font-size: 17px;border-bottom: 1px solid #eee;margin:0;padding: 10px 0 10px 0;cursor: pointer; color: #696969;}
+    p:hover{color: #ff8500;}
+    i{margin-right: 15px;font-size: 1em;vertical-align: middle;transition: all .3s ease;}
+    p:last-child{border-bottom: 0px !important;}
+}
+

@@ -1,0 +1,20 @@
+.enquirySec{
+    .mat-radio-label-content{
+        padding-right: 2rem;
+    }
+    .empty_space{height:36px;}
+    .createTxt{font-size: 14px;}
+    .tableLayout{
+        .mat-card{padding:15px;padding-bottom:0px;border: 1px solid #c1c1c1;border-radius: 10px 0 10px;}
+        span{font-size: 14px;padding-top: 4px;}
+    }
+    .float-searchicon {height: 54px;}
+}
+
+#container-table .clearButton{
+    position: relative;
+    left: 35rem;
+    color: white;
+    background-color: #682214;
+
+}

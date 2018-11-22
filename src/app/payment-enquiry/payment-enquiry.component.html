@@ -1,0 +1,222 @@
+<div class="paymentEnquirySec">
+  <form [formGroup]="paymentEnquiryForm" (ngSubmit)="enquireFormSubmit(paymentEnquiryForm.value)">
+    <div class="row">
+
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="Payment Type" formControlName="paymentType" required>
+            <mat-option *ngFor="let type of paymentTyp" [value]="type.value">
+              {{ type.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="UMRN" formControlName="umrn">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput type="number" placeholder="Amount" formControlName="amount">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Payer Account Number" formControlName="accNumber">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="ACH Code" formControlName="achCode">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <ngx-mat-drp (selectedDateRangeChanged)="updateRange($event)" [(options)]="options"></ngx-mat-drp>
+        <!-- <mat-form-field>
+              <input matInput [matDatepicker]="picker1" placeholder="Date Range" [formControl]="date">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field> -->
+        <mat-error *ngIf="futureDateSelected">
+          Future Date cannot be selected!
+        </mat-error>
+        <mat-error *ngIf="invalidDateRange">
+          From-Date cannot be greater than To-Date!
+        </mat-error>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Transaction Reference Number" formControlName="txnRefNum">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="File Name" formControlName="fileName">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="Queue Status" formControlName="queueStatus">
+            <mat-option *ngFor="let status of queueStat" [value]="status.valueOne">
+              {{ status.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row text-center mb-3">
+      <div class="col-12">
+        <button class="btn btn-default enquiryBtn" [disabled]="invalidDateRange || futureDateSelected" type="submit">Enquire</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="mandateGrid tableLayout" *ngIf="showGrid && !noRecords">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <div class="grid-header">
+            <div class="row">
+              <div class="col-3 align-self-start text-left">
+                <h5 class="text-blue">Payment Enquiry Details</h5>
+              </div>
+              <div class="col-9 align-self-end text-right" *ngIf="doesGridDataExistForSearch">
+                <span class="mr-3">{{minRecords}} to {{maxRecords}} out of {{totalRecords}}</span>
+                <label for="email">Result per page:</label>
+                <select class="form-control" [(value)]="selected" (change)="pageSizeChanged($event)">
+                  <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{
+                    selectRange.viewValue }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-12 px-0">
+              <div class="float-searchicon" (click)="gridSearchClicked = !gridSearchClicked"><span matTooltip="Search for particular column"><i
+                    class="fa fa-search" aria-hidden="true"></i> </span></div>
+              <div class="slide-table">
+                <div class="float-buttons">
+                  <button id="slideleft" (click)="scrollLeft()">
+                    <span>
+                      <</span> </button> </div> <div id="container-table" #tablescroll>
+                        <table class="table table-bordered table-striped " *ngIf="!noRecords">
+                          <thead>
+                            <tr>
+                              <th (click)="sortGrid(i)" *ngFor="let header of tableHeader; let i=index">{{getSplitWord(header)}}
+                                <span>{{item1.join(" ")}}</span>
+                                <br>
+                                <span>{{item2.join(" ")}}</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="gridSearch" *ngIf="gridSearchClicked">
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridPaymentType"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridQueueType"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridAchCode"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridFileName"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridAccNumber"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="searchDate" (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="number" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridAmt"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridTxnRefNum"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="paymentEnquiryGridSearchObj.gridUmrn"
+                                  (blur)="gridSearch(paymentEnquiryGridSearchObj)">
+                              </td>
+                            </tr>
+
+
+                            <tr *ngFor="let data of mandateGridValue">
+                              <td>{{data[0]}}</td>
+                              <td>{{data[1]}}</td>
+                              <td>{{data[2]}}</td>
+                              <td>{{data[3]}}</td>
+                              <td>{{data[4]}}</td>
+                              <td>{{data[5] | date :[dateTimeFormat]}}</td>
+                              <td>{{data[6] | number:'.2-2'}}</td>
+                              <td>{{data[7]}}</td>
+                              <td>{{data[8]}}</td>
+                              <!-- <td>
+                                                                    <a><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | 
+                                                                    <a><i class="fa fa-trash"aria-hidden="true"></i></a>
+                                                                </td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                        <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data Found. Please refine
+                          your search!</mat-error>
+                </div>
+                <div class="float-buttons">
+                  <button id="slideright" (click)="scrollRight()">
+                    <span>></span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt-2 mb-4" *ngIf="!noRecords">
+            <div class="mr-auto"></div>
+            <div class="col-3 text-right mandatePagination" *ngIf="doesGridDataExistForSearch">
+              <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+              <!-- <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="pageNumber"> -->
+
+              {{pageNumber}}/ {{totalPages}}
+              <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">Next
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table with No records -->
+  <div class="noRecords text-center" *ngIf="enquiryClicked && noRecords">
+    <div>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <h4>No Records found</h4>
+      <p>No relevant records found on mandates</p>
+    </div>
+  </div>
+
+</div>

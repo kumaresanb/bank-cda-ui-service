@@ -1,0 +1,171 @@
+<div class="fileEnquirySec">
+  <form [formGroup]="fileEnquiryForm" (ngSubmit)="enquireFormSubmit(fileEnquiryForm.value)">
+    <div class="row">
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select required placeholder="File Type" formControlName="fileType">
+            <mat-option *ngFor="let type of messageType" [value]="type.value">
+              {{type.valueOne}}
+            </mat-option>
+          </mat-select>
+          <mat-error>Select File Type</mat-error> 
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Uploaded File Name" formControlName="uploadedFileName">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <ngx-mat-drp (selectedDateRangeChanged)="updateRange($event)" id="date-picker" [(options)]="options"></ngx-mat-drp>
+        <!-- <mat-form-field>
+									<input matInput [matDatepicker]="from" placeholder="Uploaded Date Range">
+									<mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+									<mat-datepicker #from></mat-datepicker>
+                </mat-form-field> -->
+                <mat-error *ngIf="futureDateSelected">
+                  Future Date cannot be selected!
+                </mat-error>
+        <mat-error *ngIf="invalidDateRange">
+          From-Date cannot be greater than To-Date!
+        </mat-error>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="File Processing Status" formControlName="fileProcessingStatus">
+            <mat-option *ngFor="let status of filestatus" [value]="status.value">
+              {{status.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row text-center my-4">
+      <div class="col-12">
+        <button class="btn btn-default enquiryBtn" [disabled]="invalidDateRange || futureDateSelected || fileEnquiryForm.invalid" type="submit">Enquire</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="mandateGrid tableLayout mt-3" *ngIf="showGrid && !noRecords">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <div class="grid-header">
+            <div class="row">
+              <div class="col-3 align-self-start text-left">
+                <h5 class="text-blue">File Enquiry Details</h5>
+              </div>
+
+              <div class="col-9 align-self-end text-right" *ngIf="doesGridDataExistForSearch">
+                <span class="mr-3">{{minRecords}} to {{maxRecords}} out of {{totalRecords}}</span>
+                <label for="email">Result per page:</label>
+                <select class="form-control" [(value)]="selectedresultRangeValue" (change)="pageSizeChanged($event)">
+                  <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{ selectRange.viewValue }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-12 px-0">
+                <div class="float-searchicon" (click)="gridSearchClicked = !gridSearchClicked" ><span matTooltip="Search for particular column"><i class="fa fa-search" aria-hidden="true"></i> </span></div>
+              <div class="slide-table">
+                <div class="float-buttons">
+                  <button id="slideleft" (click)="scrollLeft()">
+                    <span>
+                      <</span>
+                  </button>
+                </div>
+                <div id="container-table" #tablescroll>                  
+                  <table class="table table-bordered table-striped" *ngIf="enquiryClicked && !noRecords">
+                    <thead>
+                      <tr>
+                        <th (click)="sortGrid(i)" *ngFor="let header of fileEnquiryHeader; let i=index">{{getSplitWord(header)}}
+                          <span>{{item1.join(" ")}}</span>
+                          <br>
+                          <span>{{item2.join(" ")}}</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="gridSearch" *ngIf="gridSearchClicked">
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="searchFiletype" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchBatchRef" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchFileName" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchDate" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchUploadedBy" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchFileProcessingStatus" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                        <td>
+                          <input type="text" [(ngModel)]="searchErrorFileName" class="form-control" (focusout)="gridSearch()">
+                        </td>
+                      </tr>
+                      <tr *ngFor="let data of fileEnquiryData">
+                        <td>{{getFileTypeName(data[1])}}</td>   
+                        <td>{{data[2]}}</td>
+                        <td>{{data[3]}}</td>
+                        <td>{{data[4] | date:[dateTimeFormat]}}</td>
+                        <td>{{data[5]}}</td>
+                        <td>{{data[6]}}</td>
+                        <td (click)="download(data[7])">
+                          <svg-icon src="assets/images/Artboard 3.svg" *ngIf="data[7]!=''"></svg-icon>
+                          <label>{{data[7]}}</label>
+                        </td>
+                        <!-- <td></td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                  <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data Found. Please refine your search!</mat-error>
+                </div>
+                <div class="float-buttons">
+                  <button id="slideright" (click)="scrollRight()">
+                    <span>></span>
+                  </button>
+                </div>
+              </div>
+
+
+              <!-- Table with No records -->
+            </div>
+          </div>
+
+          <div class="row mt-2 mb-4" *ngIf="!noRecords">
+            <div class="mr-auto"></div>
+            <div class="col-3 text-right mandatePagination"  *ngIf="doesGridDataExistForSearch">
+              <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+              <!-- <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="5"> -->
+              {{pageNumber}}/ {{totalPages}}
+              <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">Next
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="noRecords text-center" *ngIf="enquiryClicked && noRecords">
+    <div>
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <h4>No Records found</h4>
+        <p>No relevant records found on uploaded files</p>
+    </div>
+  </div>
+</div>

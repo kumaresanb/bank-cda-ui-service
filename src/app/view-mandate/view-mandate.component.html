@@ -1,0 +1,249 @@
+<div class="container-fluid" >
+        <div class="page-header">
+            <div class="row  mt-3">
+                <div class="col-md-7">
+                    <span class="backnavIcon" [routerLink]="['/mandate']"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                    <h4 class="text-orange">View Mandate</h4>
+                </div>
+                <div class="col-md-5 text-right small align-self-end createIcons">
+                      <div class="row">
+
+                          <!-- <div class="col-5" >
+                              <mat-form-field>
+                                  <input matInput placeholder="Product" type="text"
+                                 name="Product" value="{{mandate?.product?.productName}}" />
+                                </mat-form-field>
+                          </div> -->
+                          <div class="col-3 ml-auto">
+                              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                              <i class="fa fa-print"></i>
+                              <i class="fa fa-times"></i>
+                          </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="viewMandateSec" >
+          <div class="row">
+            <div class="col-7 pr-0">
+                <mat-card class="bg-grey">
+                  <!-- <div class="icon-bar">
+                      <a href="#" class="facebook"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                      <a href="#" class="twitter"><i class="fa fa-search-plus"></i></a>
+                      <a href="#" class="google"><i class="fa fa-arrows-alt" aria-hidden="true"></i></a>
+                      <a href="#" class="linkedin"><i class="fa fa-crop"></i></a>
+                      <i class="fas fa-redo"></i>
+                      <a href="#" class="youtube"><i class="fa fa-minus"></i></a>
+                    </div> -->
+                  <img [src]="imageUrl" class="img-fluid">
+                </mat-card>
+                <!-- <div class="row">
+                    <div class="col-12">
+                          <div class="image-upload pl-3">
+                              <label for="file-input">
+                                  <div class="thumbnailImg"></div>
+                                  <p>+ Attachment</p>
+                              </label>
+                              <input id="file-input" type="file"/>
+                          </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="col-5 pl-0">
+              <mat-card class="formBlock">
+                <div>
+                    <form [formGroup]="myform">
+                        <div class="row">
+                            <div class="col-6">
+                              <div class="form-group">
+                                <label>UMRN</label>
+                                <h5>{{mandate.umrn}}</h5>
+                              </div>
+
+                              <div class="form-group">
+                                  <label>Sponsoring Bank Code</label>
+                                  <h5 class="mb-0">{{mandate.sponsorBankCode}}</h5>
+                              </div>
+                              <span class="sub-text">{{sponserBankName}}, {{sponserBankBranchName}}</span>
+                            
+                              <div class="row">
+                                  <div class="col-8">
+                                        <div class="form-group">
+                                            <label>Bank Account Number</label>
+                                            <h5>{{mandate.payerAccNum}}</h5>
+                                        </div>
+                                  </div>
+                                  <div class="col-4" *ngIf="mandate.mandateType==='ACHONUS' && userRole==='CHECKER'">
+                                      <button  (click)="accountInquiry(mandate.payerAccNum)" type="button" class="btn btn-default verifyBtn">Verify</button>
+                                  </div>
+                                  <div class="col-12 mt-12" *ngIf="accountVerifyResponse?.statusFlg === '1'">
+                                    <span class="text-orange">FAILURE</span>
+                                    <span class="text-orange">{{accountVerifyResponse.errorDesc}}</span>
+                                </div>
+                                
+  
+                                <div class="col-12 mt-12" *ngIf="accountVerifyResponse?.statusFlg === '0'">
+                                  <span class="text-orange">SUCCESS</span>
+                                  <span class="text-orange">{{accountVerifyResponse.acctName}}</span>
+                                  <span class="text-orange">{{accountVerifyResponse.acctStatus}}</span>
+                              </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label>Destination bank code (IFSC/MICR)</label>
+                                  <h5 class="mb-0">{{mandate.payerBankCode}}</h5>
+                              </div>
+                              <span class="sub-text">{{payerBankName}}, {{payerBankBranchName}}</span>
+
+                            </div>
+
+                            <div class="col-6">
+                                  <div class="form-group">
+                                      <label>Date</label>
+                                      <h5>{{mandate.createdDate | date: dateFormat}}</h5>
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Utility Code</label>
+                                      <h5 class="mb-0">{{mandate.utilityCode}}</h5>
+                                  </div>
+                                  <!-- <span class="sub-text">Vodafone India Pvt Ltd</span> -->
+                                  <div class="form-group">
+                                      <label>Account Type</label>
+                                      <h5>{{mandate.payerAccType}}</h5>
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Amount</label>
+                                    <h5>{{mandate.maxAmount | number:'.2-2'}}</h5>
+                              </div>
+                                 <!-- <div class="form-group">
+                                    <label>Destination Bank Name</label>
+                                    <h5>INDB0000011</h5>
+                                 </div>
+                                 <span>Indus Ind Bank, Fort,Andheri branch, Mumbai</span> -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>Frequency</label>
+                                        <h5>{{mandate.mandateFrequency}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>Starting from</label>
+                                        <h5>{{mandate.startDate | date: dateFormat}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>Upto</label>
+                                        <h5>{{mandate.endDate | date: dateFormat}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3" *ngIf="mandate.untilCancel==='Y'; else elseBlock">
+                                    <mat-checkbox disabled checked="true" ></mat-checkbox>
+                                    <label>Untill Cancel</label>
+                                </div>
+
+                                <ng-template #elseBlock>
+                                    <mat-checkbox disabled unchecked="true" ></mat-checkbox>
+                                    <label>Untill Cancel</label>
+                                </ng-template>
+
+                                
+                            </div>
+
+                            
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Consumer reference number 1</label>
+                                    <h5>{{mandate.consumerRefNo}}</h5>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Screen plan reference number</label>
+                                    <h5>{{mandate.schemeRefNo}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Mobile Number</label>
+                                    <h5>{{mandate.payerMobileNo}}</h5>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Mail Id</label>
+                                    <h5>{{mandate.payerEmail}}</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Name of Account Holder</label>
+                                    <h5>{{mandate.payerName}}</h5>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Customer Additional Identifiaction</label>
+                                    <h5>{{mandate.payerIdentification}}</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="showTextArea">
+                            <div class="col-6">
+                                    <mat-form-field>
+                                        <textarea matInput placeholder="{{textAreaMessage}}" formControlName="authComment"></textarea>
+                                    </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="form-group" *ngIf="mandate.mndTxnCode==='SINGLE_AMEND_ACH'">
+                            <label>Reason for Amend</label>
+                            <h5>{{mandate.reason}}</h5>
+                        </div>
+
+                        <div class="form-group" *ngIf="mandate.mndTxnCode==='SINGLE_CANCEL_ACH'">
+                            <label>Reason for Cancellation</label>
+                            <h5>{{mandate.reason}}</h5>
+                        </div>
+
+                        <div class="row text-center py-2" *ngIf="showAuthAction && userRole==='CHECKER'">
+                            <div class="col-12">
+                                <button class="btn approveBtn mr-3" (click)="processMandate(mandate,myform.value)">Approve
+                                    <i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn rejectBtn" (click)="processMandateReject(mandate,myform.value)">Reject
+                                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row text-center py-2" *ngIf="showRepairDeleteAction && userRole==='MAKER'">
+                          <div class="col-12">
+                              <button class="btn approveBtn mr-3" (click)="repairMandate(mandate)">Repair
+                                  <i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+                              </button>
+                              <button class="btn rejectBtn" (click)="deleteMandate(mandate)">Delete
+                                  <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                              </button>
+                          </div>
+                      </div>
+                    </form>
+
+                </div>
+              </mat-card>
+            </div>
+          </div>
+
+        </div>
+
+        </div>

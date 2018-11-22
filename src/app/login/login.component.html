@@ -1,0 +1,27 @@
+<div class="loginPopUp">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="text-center mb-4">CDA Operations</h5>
+        <p *ngIf="invalidUser"><i class="fa fa-exclamation-triangle mr-2"></i> Invalid Credentials</p>
+          <form  [formGroup]="loginForm" (ngSubmit)="login()" class="my-5">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Username" id="login-username" formControlName="userName" autofocus autocomplete="off">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                  <input matInput type="password" placeholder="Password" formControlName="userPassword" id="login-password" type="password" autocomplete="off">
+              </mat-form-field>
+
+              <!-- <mat-form-field>
+                  <mat-select placeholder="Start In">
+                    <mat-option *ngFor="let start of startIn" [value]="start.value">
+                      {{start.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+
+                <button type="submit"  id="loginButton" [disabled]="!loginForm.valid" class="btn login-btn text-uppercase w-100 mt-3">Login</button>
+          </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+.vertical_center{min-height: 100%;min-height: 81vh;display: flex;align-items: center;
+   
+}
+
+.landingPageSec{
+    .mat-card{padding: 4rem 0.8rem;background-color: #f9f9f9;border: 1px solid #808080;
+    border-top-right-radius: 10px;border-bottom-left-radius: 10px;background-color: rgba(227, 137,45,0.4) !important;
+    box-shadow:none !important;border:none !important;border-radius:10px !important;
+    }
+
+    h4{font-size: 38px;color: #fff;font-weight:bold;}  
+    p{color: #fff;font-size: 18px;width:70%;margin:0 auto;
+    }
+    .carousel-control.left,.carousel-control.right{background-image:none !important;}
+    .carousel-inner{height: 125px;}
+    .carousel-indicators{bottom:-40px !important;}
+
+}

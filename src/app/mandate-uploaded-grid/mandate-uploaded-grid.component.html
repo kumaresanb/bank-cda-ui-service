@@ -1,0 +1,158 @@
+
+ <!-- <div class="page-header">
+      <div class="row  my-3">
+        <div class="col-md-8">
+          <span class="backnavIcon" [routerLink]="['/bulkupload']">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+          </span>
+          <h4 class="text-orange">NACH Mandate
+            <span>
+              <i class="fa fa-angle-right" aria-hidden="true"></i> Mandate Uploaded files</span>
+          </h4>
+        </div>
+
+        <div class="col-md-4 text-right small align-self-end">
+        </div>
+      </div>
+      <hr>
+  </div> -->
+
+  <div class="mandateGrid tableLayout mt-3">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <div class="grid-header">
+            <div class="row">
+              <div class="col-3 align-self-start text-left">
+                <h5 class="text-blue">Mandate Files Summary</h5>
+              </div>
+
+              <div class="col-9 align-self-end text-right" *ngIf="doesGridDataExistForSearch">
+                <span class="mr-3">{{minRecords}} to {{maxRecords}} out of {{totalRecords}}</span>
+                <label for="email">Result per page:</label>
+                <select class="form-control" [(value)]="selectedresultRangeValue" (change)="pageSizeChanged($event)">
+                  <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{ selectRange.viewValue }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-12 px-0">
+              <div class="float-searchicon" (click)="gridsearch = !gridsearch" ><span matTooltip="Search for particular column"><i class="fa fa-search" aria-hidden="true"></i> </span></div>
+              <div class="slide-table">
+                <div class="float-buttons">
+                  <button id="slideleft" (click)="scrollLeft()">
+                    <span>
+                      <</span>
+                  </button>
+                </div>
+                <div id="container-table" #tablescroll>                    
+                  <table class="table table-bordered table-striped ">
+                    <thead>
+                      <tr>
+                        <th (click)="sortGrid(i)" *ngFor="let header of mandateUploadHeader; let i=index">{{getSplitWord(header)}}
+                          <span>{{item1.join(" ")}}</span>
+                          <br>
+                          <span>{{item2.join(" ")}}</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="gridSearch" *ngIf="gridsearch">
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="fileName" (blur)="gridSearchFunction(fileName)">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <!-- <td>  
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" disabled>
+                        </td> -->
+                      </tr>
+                      <tr *ngFor="let data of mandateUploadFileData">
+                        <td>{{data.BATCH_FILE_NAME}}</td>
+                        <!-- <td>{{data[1]*1+data[5]*1+data[6]*1+data[7]*1+data[8]*1+data[9]*1+data[10]*1}}</td> -->
+                        <td>{{data.ERR_300}}</td>
+                        <!-- <td>{{data[2]}}</td>
+                        <td>{{data[3]}}</td>
+                        <td>{{data[4]}}</td> -->
+                        <td>{{data.PFG_300}}</td>
+                        <td>{{data.PAK_300}}</td>
+                        <td>{{data.NAK_300}}</td>
+                        <td>{{data.ACK_300}}</td>
+                        <td>{{data.ACC_310}}</td>
+                        <td>{{data.REJ_310}}</td>
+                       
+                      </tr>
+                    </tbody> 
+
+                  </table>
+                  <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data Found. Please refine your search!</mat-error>   
+                </div>  
+                <div class="float-buttons">
+                  <button id="slideright" (click)="scrollRight()">
+                    <span>></span>
+                  </button>
+                </div>
+              </div>
+
+
+
+
+              <!-- <mat-table #table [dataSource]="dataSource">
+
+                                                <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+                                                  <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+                                                  <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                              </mat-table> -->
+            </div>
+          </div>
+
+          <div class="row mt-2 mb-4" *ngIf="!noRecords">
+            <div class="mr-auto"></div>
+            <div class="col-3 text-right mandatePagination" *ngIf="doesGridDataExistForSearch">
+              <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+              <!-- <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="pageNumber"> -->
+
+              {{pageNumber}}/ {{totalPages}}
+              <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">Next
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>

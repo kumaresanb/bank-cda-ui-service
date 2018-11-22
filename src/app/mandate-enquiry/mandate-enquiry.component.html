@@ -1,0 +1,376 @@
+<div class="enquirySec">
+  <div class="row">
+    <div class="col-12">
+      <mat-radio-group [(ngModel)]="mandateSubType">
+        <mat-radio-button value="ongoingmandates" (click)="enquiryStatus(inProcessValue)" #inProcessValue> In-process
+          Mandates</mat-radio-button>
+        <mat-radio-button value="activeMandate" (click)="enquiryStatus(confirmedValue)" class="ml-5" #confirmedValue>Confirmed
+          Mandates</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <form [formGroup]="enquiryForm" (ngSubmit)="enquiry(enquiryForm.value)">
+
+
+    <div class="row pt-2">
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="Mandate Type" id="mandateType" formControlName="selectedmandateType" required>
+            <mat-option *ngFor="let type of mandateType" [value]="type.valueOne"> {{ type.valueOne }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="UMRN" id="umrn" formControlName="umrn">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput type="number" min=0 placeholder="Amount" id="amount" formControlName="amt">
+
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Payee Account Number" id="payeeAccNum" formControlName="payeeAccNumber">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="ACH Code" id="achCode" formControlName="achCd">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <ngx-mat-drp (selectedDateRangeChanged)="updateRange($event)" [(options)]="options"></ngx-mat-drp>
+        <mat-error *ngIf="futureDateSelected">
+          Future Date cannot be selected!
+        </mat-error>
+        <mat-error *ngIf="invalidDateRange">
+          From-Date cannot be greater than To-Date!
+        </mat-error>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Mandate Reference Number" id="mndRefNumber" formControlName="mndRefNumber">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="File Name" id="fileName" formControlName="fileName">
+        </mat-form-field>
+      </div>
+
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select [placeholder]="mandateSubType=='activeMandate'?'Mandate Status':'Queue Status'" id="queueStatus"
+            formControlName="queueStatus" (change)="queChanged($event.value)">
+            <mat-option *ngFor="let status of queStatus" [value]="status">
+              {{ status.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row text-center mb-3">
+      <div class="col-12">
+        <button class="btn btn-default enquiryBtn" [disabled]="invalidDateRange || futureDateSelected" type="submit">Enquire</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="mandateGrid tableLayout" *ngIf="enquiryClicked && !noRecords">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <div class="grid-header">
+            <div class="row">
+              <div class="col-3 align-self-start text-left">
+                <h5 class="text-blue">Mandates Status</h5>
+              </div>
+
+              <div class="col-9 align-self-end text-right" *ngIf="doesGridDataExistForSearch">
+                <span class="mr-3">{{minRecords}} to {{maxRecords}} out of {{totalRecords}}</span>
+                <label for="email">Result per page:</label>
+                <select class="form-control" [(value)]="selected" (change)="pageSizeChanged($event)">
+                  <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{
+                    selectRange.viewValue }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2" *ngIf="mandateSubType ==='ongoingmandates'" >
+            <div class="col-12 px-0">
+              <div class="float-searchicon" (click)="gridSearchClicked = !gridSearchClicked"><span matTooltip="Search for particular column"><i
+                    class="fa fa-search" aria-hidden="true"></i> </span></div>
+              <div class="slide-table">
+                <div class="float-buttons">
+                  <button id="slideleft" (click)="scrollLeft()">
+                    <span><</span> </button> </div> 
+                      <div id="container-table" #tablescroll>
+                        <table class="table table-bordered table-striped " *ngIf="!noRecords">
+                          <thead>
+                            <tr>
+                              <th (click)="sortGrid(i)" *ngFor="let header of tableHeader; let i=index">{{getSplitWord(header)}}
+                                <span>{{item1.join(" ")}}</span>
+                                <br>
+                                <span>{{item2.join(" ")}}</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="gridSearch" *ngIf="gridSearchClicked">
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridSelectedMandateType"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridUmrn" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="number" class="form-control" [(ngModel)]="enquirySearchObj.gridAmt" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridPayeeAccNumber"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridAchCd" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="crtdDate" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridMndRefNo"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridFileName"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridQueueType"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <!-- <td><input type="text" class="form-control" (blur)="gridSearch(EnquirySearchObj.mandateType)"></td> -->
+
+                            </tr>
+                            <!-- <tr *ngFor="let data of mandateGridValue" (click)="viewOfEnquery(data.mndRefNo)"> -->
+                            <tr *ngFor="let data of mandateGridValue" >
+                                <td>{{data.MND_TYPE}}</td>
+                                <td>{{data.UMRN}}</td>
+                                <td>{{data.MND_MAX_AMT | number:'.2-2'}}</td>
+                                <td>{{data.PAYER_ACCT_NUM}}</td>
+                                <td>{{data.ORG_OIC}}</td>
+                                <td>{{data.CRTD_DT | date:[dateTimeFormat]}}</td>
+                                <td>{{data.MND_REF_NUM}}</td>
+                                <td>{{data.BATCH_FILE_NAME}}</td>
+                                <td>{{data.Q_STATUS}}</td>
+                              <!-- <td 
+															*ngIf="this.enquiryForm.value.mandateSubType==='activeMandate'">
+																<a (click)="amendMandate(data)">
+																	<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+																</a> |
+																<a>
+																	<i (click)="cancelMandate(data)" class="fa fa-trash" aria-hidden="true"></i>
+																</a>
+															</td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                        <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data Found. Please refine
+                          your search!</mat-error>
+                </div>
+
+                <div class="float-buttons">
+                  <button id="slideright" (click)="scrollRight()">
+                    <span>></span>
+                  </button>
+                </div>
+              </div>
+
+
+              <!-- Table with No records -->
+              <!-- <div class="noRecords text-center">
+												<div>
+													<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+													<h4>No Records found</h4>
+													<p>No relevant records found on mandates</p>
+												</div>
+											</div> -->
+
+            </div>
+          </div>
+
+
+
+
+
+          <div class="row mt-2" *ngIf="mandateSubType ==='activeMandate'" >
+            <div class="col-12 px-0">
+              <div class="float-searchicon" (click)="gridSearchClicked = !gridSearchClicked"><span matTooltip="Search for particular column"><i
+                    class="fa fa-search" aria-hidden="true"></i> </span></div>
+              <div class="slide-table">
+                <div class="float-buttons">
+                  <button id="slideleft" (click)="scrollLeft()">
+                    <span>
+                      </span> </button> </div> <div id="container-table" #tablescroll>
+                        <table class="table table-bordered table-striped " *ngIf="!noRecords">
+                          <thead>
+                            <tr>
+                              <th (click)="sortGrid(i)" *ngFor="let header of tableHeader; let i=index">{{getSplitWord(header)}}
+                                <span>{{item1.join(" ")}}</span>
+                                <br>
+                                <span>{{item2.join(" ")}}</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="gridSearch" *ngIf="gridSearchClicked">
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridSelectedMandateType"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridUmrn" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="number" class="form-control" [(ngModel)]="enquirySearchObj.gridAmt" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridPayeeAccNumber"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridAchCd" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="crtdDate" (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridMndRefNo"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridFileName"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" [(ngModel)]="enquirySearchObj.gridQueueType"
+                                  (blur)="gridSearch(enquirySearchObj)">
+                              </td>
+                               <!-- <td><input type="text" class="form-control" (blur)="gridSearch(EnquirySearchObj.mandateType)"></td>  -->
+
+                            </tr>
+                            <!-- <tr *ngFor="let data of mandateGridValue" (click)="viewOfEnquery(data.mndRefNo)"> -->
+                            <tr *ngFor="let data of mandateGridValue" >
+                              <!-- <td>{{data.mnd_type}}</td>
+                              <td>{{data.umrn}}</td>
+                              <td>{{data.mnd_max_amt | number:'.2-2'}}</td>
+                              <td>{{data.payer_acct_num}}</td>
+                              <td>{{data.org_oic}}</td>
+                              <td>{{data.last_modified_date | date:[dateTimeFormat]}}</td>
+                              <td>{{data.mnd_ref_num}}</td>
+                              <td>{{data.file_name}}</td>
+                              <td>{{data.q_status}}</td> -->
+
+                              <td>{{data.MND_TYPE}}</td>
+                                <td>{{data.UMRN}}</td>
+                                <td>{{data.MND_MAX_AMT | number:'.2-2'}}</td>
+                                <td>{{data.PAYER_ACCT_NUM}}</td>
+                                <td>{{data.ORG_OIC}}</td>
+                                <td>{{data.CRTD_DT | date:[dateTimeFormat]}}</td>
+                                <td>{{data.MND_REF_NUM}}</td>
+                                <td>{{data.DDS_FILE_NAME}}</td>
+                                <!-- <td>{{data.TXN_CODE}}</td> -->
+                                <td>{{data.Q_STATUS}}</td>
+                                <!-- <td (click)="viewMandate(data.MND_REF_NUM)">AMEND</td> -->
+                               <td *ngIf="userRole==='MAKER'">
+																<a (click)="amendMandate(data.MND_REF_NUM)">
+																	<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+																</a> |
+																<a>
+																	<i (click)="cancelMandate(data.MND_REF_NUM)" class="fa fa-trash" aria-hidden="true"></i>
+																</a>
+															</td> 
+                            </tr>
+                          </tbody>
+                        </table>
+                        <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data Found. Please refine
+                          your search!</mat-error>
+                </div>
+
+                <div class="float-buttons">
+                  <button id="slideright" (click)="scrollRight()">
+                    <span>></span>
+                  </button>
+                </div>
+              </div>
+
+
+              <!-- Table with No records -->
+              <!-- <div class="noRecords text-center">
+												<div>
+													<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+													<h4>No Records found</h4>
+													<p>No relevant records found on mandates</p>
+												</div>
+											</div> -->
+
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div class="row mt-2 mb-4" *ngIf="!noRecords">
+            <div class="mr-auto"></div>
+            <!-- <div class="col-4">
+											<button class="btn approveBtn">
+												Approve
+												<i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+											</button>
+											<button class="btn rejectBtn">
+													Reject
+													<i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+											</button>
+										</div> -->
+            <div class="col-3 text-right mandatePagination" *ngIf="doesGridDataExistForSearch">
+              <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev
+              </button>
+              {{pageNumber}}/ {{totalPages}}
+
+              <!-- <input type="text" class="text-center paginationInput form-control" style="width: 30px;" value="1"> / 20 -->
+              <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">
+                Next
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Table with No records -->
+<div class="noRecords text-center" *ngIf="enquiryClicked && noRecords">
+  <div>
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <h4>No Records found</h4>
+    <p>No relevant records found on mandates</p>
+  </div>
+</div>

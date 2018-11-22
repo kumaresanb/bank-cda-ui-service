@@ -1,0 +1,26 @@
+<div class="popUpSec">
+  <div class="row text-center" *ngIf="(data.msgType==='WARNING') ; else otherTemp">
+    <div class="col-12">
+      <span class="warningIcon"><i class="fa fa-exclamation-circle" style="font-size:48px;color:red"></i></span>
+      <p><b>{{data.successOrfailMsg}}</b></p>
+      <p>{{data.msg}}</p>
+      <button class="btn btn-default btn-ok"  (click)="onClick('OK')"> Yes, delete it!</button>
+      <button class="btn btn-default btn-close"(click)="onClick('CLOSE')"> Cancel</button>
+    </div>
+  </div>
+
+  <ng-template #otherTemp>
+      <div class="row text-center" >
+          <div class="col-12">
+            <span class="failureIcon"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <p>{{data.successOrfailMsg}}</p>
+            <p>{{data.msg}}</p>
+            <button class="btn btn-default btn-ok" (click)="onClick('OK')"> OK</button>
+
+          </div>
+        </div>
+  </ng-template>
+</div>
+
+
+

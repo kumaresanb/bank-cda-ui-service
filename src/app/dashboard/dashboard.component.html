@@ -1,0 +1,1714 @@
+<!-- Loading Icon -->
+<!-- <div class="spinner"><mat-spinner></mat-spinner></div> -->
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row  mt-3">
+            <div class="col-md-7">
+                <span class="backnavIcon" [routerLink]="['/homepage']">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </span>
+                <h4 class="text-orange">Dashboard</h4>
+            </div>
+            <div class="col-md-5 text-right small align-self-end">
+
+            </div>
+        </div>
+        <hr class="mb-0">
+    </div>
+    <div class="dashboardSec">
+        <div class="row">
+            <!-- First level Tabs start -->
+            <div class="col-1 text-center paymentTabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" (click)="tabActMan();">
+                        <a class="nav-link active" data-toggle="tab" href="#mandate" role="tab" aria-controls="mandate">
+                            <span class="icon-authorization"></span>
+                            <h5>Mandate</h5>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" (click)="tabActPay();">
+                        <a class="nav-link" data-toggle="tab" href="#payment" role="tab" aria-controls="payment">
+                            <span class="RTP-icons_outward-payments"></span>
+                            <h5>Payment</h5>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- First level Tabs end -->
+
+            <div class="col-11  pr-0">
+                <div class="tab-content">
+                    <!-- Mandate Tab Starts -->
+                    <div class="tab-pane active" id="mandate" role="tabpanel">
+                        <ng-sidebar-container class="mandateTab">
+                            <ng-sidebar [(opened)]="_opened1" mode="push" position="left" class="mandate-sidenav">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#nachmandate" role="tab"
+                                            aria-controls="nachmandate">
+                                            NACH Mandate Status
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#ageingstatus" role="tab"
+                                            aria-controls="ageingstatus">
+                                            Mandate Ageing Status
+                                        </a>
+                                    </li>
+                                    <li (click)="tabActMan()">
+                                        <a>
+                                            <i class="fa fa-times"></i> Close</a>
+                                    </li>
+                                </ul>
+                            </ng-sidebar>
+
+                            <div ng-sidebar-content>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="nachmandate" role="tabpanel">
+                                        <div class="container-fluid">
+                                            <div class="page-header">
+                                                <div class="row  mt-3">
+                                                    <div class="col-md-7">
+                                                        <h4 class="text-orange">NACH Mandate Status</h4>
+                                                    </div>
+                                                    <div class="col-md-5 text-right small align-self-end">
+
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+
+                                            <div class="row dashboardRightTabs">
+                                                <div class="col-12">
+                                                    <mat-tab-group>
+                                                        <!-- <mat-tab label="NACH Mandate - All">
+                                                                    <div class="row">
+                                                                        <div class="col-12 refreshIcon text-right">
+
+                                                                                <svg-icon src="assets/images/Artboard 5.svg" (click)="refresh()"></svg-icon>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row text-center h-100">
+                                                                        <div class="col-2"></div>
+                                                                        <div class="col-2 text-center my-auto">
+                                                                            <div class="card card-block d-flex border-blue">
+                                                                                <div class="card-body align-items-center d-flex justify-content-center"  matTooltip="{{mandateDetails.totalPresented}} Mandates" matTooltipClass="dashboardTooltip bg-sky-blue"
+                                                                                >
+                                                                                    {{mandateDetails.totalPresented | number}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <h4>Total Presented</h4>
+                                                                        </div>
+
+                                                                        <div class="col-2 text-center my-auto">
+                                                                            <div class="card card-block d-flex border-green">
+                                                                            <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{mandateDetails.totalAccepted}} Mandates" matTooltipClass="dashboardTooltip bg-light-green">
+                                                                                {{mandateDetails.totalAccepted | number}}
+                                                                            </div>
+                                                                            </div>
+                                                                            <h4>Total Accepted</h4>
+                                                                        </div>
+
+                                                                        <div class="col-2 text-center my-auto">
+                                                                            <div class="card card-block d-flex border-purple-light">
+                                                                            <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{mandateDetails.totalRejected}} Mandates" matTooltipClass="dashboardTooltip bg-purple-light">
+                                                                                 {{mandateDetails.totalRejected | number}}
+                                                                            </div>
+                                                                            </div>
+                                                                            <h4>Total Rejected</h4>
+                                                                        </div>
+
+                                                                        <div class="col-2 text-center my-auto">
+                                                                            <div class="card card-block d-flex border-light-blue">
+                                                                            <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{mandateDetails.totalPending}} Mandates" matTooltipClass="dashboardTooltip bg-light-blue-shade">
+                                                                                 {{mandateDetails.totalPending | number}}
+                                                                            </div>
+                                                                            </div>
+                                                                            <h4>Total Pending</h4>
+                                                                        </div>
+                                                                        <div class="col-2  cursorPointer"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated {{mandateDetails.lastUpdateDateTime | date : 'dd-MM-yyyy hh:mm:ss'}}
+                                                                        </div>
+                                                                    </div>
+                                                            </mat-tab>-->
+                                                        <mat-tab label="NACH Mandate - All">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right mr-3">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 paperMandateBlock">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <p>Total Presented</p>
+                                                                    <hr>
+                                                                    <h2>{{mandateDetails.totalPresented | number}}</h2>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime | date
+                                                                            : 'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-green">Total
+                                                                                            Accepted</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-green">{{mandateDetails.totalAccepted
+                                                                                            |
+                                                                                            number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-meroon">Total
+                                                                                            Rejected</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-meroon">{{mandateDetails.totalRejected
+                                                                                            |
+                                                                                            number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-light-blue">Total
+                                                                                            Pending</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-light-blue">{{mandateDetails.totalPending
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="Paper Mandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 paperMandateBlock">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <p>Total Presented</p>
+                                                                    <hr>
+                                                                    <h2>{{mandateDetails.totalPapermandatePresented |
+                                                                        number}}</h2>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime | date
+                                                                            : 'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-green">Total
+                                                                                            Accepted</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-green">{{mandateDetails.totalPapermandateAccepted
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-meroon">Total
+                                                                                            Rejected</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-meroon">{{mandateDetails.totalPapermandateRejected
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-light-blue">Total
+                                                                                            Pending</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-light-blue">{{mandateDetails.totalPapermandatePending
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="Emandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 paperMandateBlock">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <p>Total Presented</p>
+                                                                    <hr>
+                                                                    <h2>{{mandateDetails.totalEmandatePresented |
+                                                                        number}}</h2>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime | date
+                                                                            : 'dd-MM-yyyy hh:mm:ss'}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-green">Total
+                                                                                            Accepted</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-green">{{mandateDetails.totalEmandateAccepted
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-meroon">Total
+                                                                                            Rejected</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-meroon">{{mandateDetails.totalEmandateRejected
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-light-blue">Total
+                                                                                            Pending</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-light-blue">{{mandateDetails.totalEmandatePending
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="OnUs Paper Mandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 paperMandateBlock">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <p>Total Presented</p>
+                                                                    <hr>
+                                                                    <h2>{{mandateDetails.totalPapermandatePresented |
+                                                                        number}}</h2>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime | date
+                                                                            : 'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-green">Total
+                                                                                            Accepted</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-green">{{mandateDetails.totalPapermandateAccepted
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-meroon">Total
+                                                                                            Rejected</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-meroon">{{mandateDetails.totalPapermandateRejected
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-light-blue">Total
+                                                                                            Pending</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-light-blue">{{mandateDetails.totalPapermandatePending
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <!-- <mat-tab label="OnUs Emandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 paperMandateBlock">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <p>Total Presented</p>
+                                                                    <hr>
+                                                                    <h2>{{mandateDetails.totalEmandatePresented |
+                                                                        number}}</h2>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime | date
+                                                                            : 'dd-MM-yyyy hh:mm:ss'}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-green">Total
+                                                                                            Accepted</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-green">{{mandateDetails.totalEmandateAccepted
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-meroon">Total
+                                                                                            Rejected</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-meroon">{{mandateDetails.totalEmandateRejected
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <div class="row h-100">
+                                                                                    <div class="col-5 my-auto text-center">
+                                                                                        <p class="bg-light-blue">Total
+                                                                                            Pending</p>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <label>Number of Mandates</label>
+                                                                                        <h3 class="text-light-blue">{{mandateDetails.totalEmandatePending
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab> -->
+                                                    </mat-tab-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="ageingstatus" role="tabpanel">
+                                        <div class="container-fluid">
+                                            <div class="page-header">
+                                                <div class="row  mt-3">
+                                                    <div class="col-md-7">
+                                                        <h4 class="text-orange">Mandate Ageing Status</h4>
+                                                    </div>
+                                                    <div class="col-md-5 text-right small align-self-end">
+
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+
+                                            <div class="row dashboardRightTabs ageingNachTab">
+                                                <div class="col-12">
+                                                    <mat-tab-group>
+                                                        <!-- <mat-tab label="NACH Mandate - All">
+                                                                            <div class="row">
+                                                                                <div class="col-12 refreshIcon text-right">
+                                                                                    <svg-icon src="assets/images/Artboard 5.svg" (click)="refresh()"></svg-icon>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row text-center pt-5">
+                                                                                <div class="col-3 cursorPointer"></div>
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-blue">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay7}} Mandates" matTooltipClass="dashboardTooltip bg-sky-blue">
+                                                                                           {{ageingMandateDetails.totalAgedDay7 | number}}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-red">7 days</h4>
+                                                                                </div>
+
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-green">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay6}} Mandates" matTooltipClass="dashboardTooltip bg-light-green">
+                                                                                         {{ageingMandateDetails.totalAgedDay6 | number}}
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-red">6 days</h4>
+                                                                                </div>
+
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-purple-light">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay5}} Mandates" matTooltipClass="dashboardTooltip bg-purple-light">
+                                                                                         {{ageingMandateDetails.totalAgedDay5 | number}}
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-brown-dark">5 days</h4>
+                                                                                </div>
+                                                                                <div class="col-3"></div>
+                                                                            </div>
+
+                                                                            <div class="row text-center pt-3 pb-5">
+                                                                                <div class="col-2"></div>
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-blue">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay4}} Mandates" matTooltipClass="dashboardTooltip bg-sky-blue">
+                                                                                             {{ageingMandateDetails.totalAgedDay4 | number}}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-brown-dark">4 days</h4>
+                                                                                </div>
+
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-green" matTooltip="{{ageingMandateDetails.totalAgedDay3}} Mandates" matTooltipClass="dashboardTooltip bg-light-green">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                         {{ageingMandateDetails.totalAgedDay3 | number}}
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-orange">3 days</h4>
+                                                                                </div>
+
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-purple-light">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay2}} Mandates" matTooltipClass="dashboardTooltip bg-purple-light">
+                                                                                         {{ageingMandateDetails.totalAgedDay2 | number}}
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-orange">2 days</h4>
+                                                                                </div>
+
+                                                                                <div class="col-2 text-center">
+                                                                                    <div class="card card-block d-flex border-light-blue">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{ageingMandateDetails.totalAgedDay1}} Mandates" matTooltipClass="dashboardTooltip bg-light-blue-shade">
+                                                                                         {{ageingMandateDetails.totalAgedDay1 | number}}
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <h4 class="text-green">1 day</h4>
+                                                                                </div>
+                                                                                <div class="col-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-12 lastUpdatedTxt text-center">
+                                                                                    Last Updated {{mandateDetails.lastUpdateDateTime | date:'dd-MM-yyyy hh:mm:ss'}}
+                                                                                </div>
+                                                                            </div>
+                                                                    </mat-tab> -->
+                                                        <mat-tab label="NACH Mandate - All">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-5 mb-2 pt-2">
+                                                                <div class="col-12  text-center my-auto">
+                                                                    <p class="text-gray text-center"> Number of
+                                                                        Mandates in Last 7 days</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mx-auto text-center">
+                                                                <div class="col-12 nachtablecls">
+                                                                    <table class="table table-bordered">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-red text-center">
+                                                                                                7</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-red text-center">days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-red text-center">6</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-red text-center">
+                                                                                        days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-brown-dark text-center">5</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-brown-dark text-center">days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-brown-dark text-center">4</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-brown-dark text-center">
+                                                                                        days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-orange text-center">
+                                                                                                3</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-orange text-center">days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-orange text-center">2</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-orange text-center">
+                                                                                        days</p>
+                                                                                </th>
+                                                                                <th>
+                                                                                    <div class="card card-block d-flex">
+                                                                                        <div class="card-body align-items-center d-flex justify-content-center">
+                                                                                            <h4 class="text-green text-center">1</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="text-green text-center">day</p>
+                                                                                </th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h5 class="text-red">{{ageingMandateDetails.totalAgedDay7
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-red">{{ageingMandateDetails.totalAgedDay6
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-brown text-center">{{ageingMandateDetails.totalAgedDay5
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-brown text-center">{{ageingMandateDetails.totalAgedDay4
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-orange text-center">{{ageingMandateDetails.totalAgedDay3
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-orange text-center">{{ageingMandateDetails.totalAgedDay2
+                                                                                        | number}}</h5>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h5 class="text-green text-center">{{ageingMandateDetails.totalAgedDay1
+                                                                                        | number}}</h5>
+                                                                                </td>
+
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-12 lastUpdatedTxt text-center">
+                                                                    Last Updated {{mandateDetails.lastUpdateDateTime |
+                                                                    date:'dd-MM-yyyy hh:mm:ss'}}
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="Paper Mandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100">
+                                                                <div class="col-12 my-auto">
+                                                                    <div class="ageingPaperMandate">
+                                                                        <div class="row justify-content-md-center text-center h-100">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay7
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">7 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay6
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">6 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay5
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">5 days</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-4 justify-content-md-center text-center">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay4
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">4 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay3
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">3 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay2
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">2 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay1
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-green">1 day</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-12 lastUpdatedTxt text-center">
+                                                                                Last
+                                                                                Updated{{mandateDetails.lastUpdateDateTime
+                                                                                | date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </mat-tab>
+                                                        <mat-tab label="Emandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100">
+                                                                <div class="col-12 my-auto">
+                                                                    <div class="ageingPaperMandate">
+                                                                        <div class="row justify-content-md-center text-center">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay7
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">7 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay6
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">6 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay5
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">5 days</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-4 justify-content-md-center text-center">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay4
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">4 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay3
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">3 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay2
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">2 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{esignMandateAgeingDetails.agedDay1
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-green">1 day</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-12 lastUpdatedTxt text-center">
+                                                                                Last Updated
+                                                                                {{mandateDetails.lastUpdateDateTime |
+                                                                                date:'dd-MM-yyyy hh:mm:ss'}}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </mat-tab>
+                                                        <mat-tab label="OnUs Paper Mandate">
+                                                            <div class="row">
+                                                                <div class="col-12 refreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100">
+                                                                <div class="col-12 my-auto">
+                                                                    <div class="ageingPaperMandate">
+                                                                        <div class="row justify-content-md-center text-center h-100">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay7
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">7 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay6
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-red">6 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay5
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">5 days</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-4 justify-content-md-center text-center">
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay4
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-brown-dark">4 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay3
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">3 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay2
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-orange">2 days</h4>
+                                                                            </div>
+                                                                            <div class="col col-lg-3">
+                                                                                <mat-card>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <label>Number of Mandates</label>
+                                                                                            <h3>{{achMandateAgeingDetails.agedDay1
+                                                                                                | number}}</h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </mat-card>
+                                                                                <h4 class="text-green">1 day</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-12 lastUpdatedTxt text-center">
+                                                                                Last
+                                                                                Updated{{mandateDetails.lastUpdateDateTime
+                                                                                | date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </mat-tab>
+                                                    </mat-tab-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-sidebar-container>
+                    </div>
+                    <!-- Mandate Tab End -->
+
+                    <!-- Payment tabs start -->
+                    <div class="tab-pane" id="payment" role="tabpanel">
+                        <ng-sidebar-container class="mandateTab paymentTab">
+                            <ng-sidebar [(opened)]="_opened" mode="push" position="left" class="mandate-sidenav">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#nachpayment" role="tab"
+                                            aria-controls="nachpayment">
+                                            NACH Payment Status
+                                        </a>
+                                    </li>
+                                    <li (click)="tabActPay()">
+                                        <a>
+                                            <i class="fa fa-times"></i> Close </a>
+                                    </li>
+                                </ul>
+                            </ng-sidebar>
+
+                            <div ng-sidebar-content>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="nachpayment" role="tabpanel">
+                                        <div class="container-fluid">
+                                            <div class="page-header">
+                                                <div class="row  mt-3">
+                                                    <div class="col-md-7">
+                                                        <h4 class="text-orange">NACH Payment Status</h4>
+                                                    </div>
+                                                    <div class="col-md-5 text-right small align-self-end">
+
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+
+                                            <div class="row dashboardRightTabs">
+                                                <div class="col-12">
+                                                    <mat-tab-group>
+                                                        <!-- <mat-tab label="NACH Payment - All">
+                                                                        <div class="row">
+                                                                                <div class="col-6 currency text-left">
+                                                                                    <p>Currency: INR</p>
+                                                                                </div>
+                                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                                    <svg-icon src="assets/images/Artboard 5.svg" (click)="refresh()"></svg-icon>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="row text-center justify-content-center h-100">
+                                                                            <div class="col-1"></div>
+                                                                            <div class="col-2 text-center my-auto">
+                                                                                <div class="card card-block d-flex border-blue">
+                                                                                    <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{paymentDetails.totalCount}} Payments" matTooltipClass="dashboardTooltip bg-sky-blue">
+                                                                                        {{paymentDetails.totalCount | number}}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h4>Total Presented</h4>
+                                                                            </div>
+
+                                                                            <div class="col-2 text-center my-auto">
+                                                                                <div class="card card-block d-flex border-green">
+                                                                                <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{paymentDetails.settledCount}} Payments" matTooltipClass="dashboardTooltip bg-light-green">
+                                                                                     {{paymentDetails.settledCount | number}}
+                                                                                </div>
+                                                                                </div>
+                                                                                <h4>Total Settled</h4>
+                                                                            </div>
+
+                                                                            <div class="col-2 text-center my-auto">
+                                                                                <div class="card card-block d-flex border-purple-light">
+                                                                                <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{paymentDetails.returnedCount}} Payments" matTooltipClass="dashboardTooltip bg-purple-light">
+                                                                                     {{paymentDetails.returnedCount | number}}
+                                                                                </div>
+                                                                                </div>
+                                                                                <h4>Total Return</h4>
+                                                                            </div>
+
+                                                                            <div class="col-2 text-center my-auto">
+                                                                                <div class="card card-block d-flex border-light-blue">
+                                                                                <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{paymentDetails.extendedCount}} Payments" matTooltipClass="dashboardTooltip bg-light-blue-shade">
+                                                                                     {{paymentDetails.extendedCount | number}}
+                                                                                </div>
+                                                                                </div>
+                                                                                <h4>Total Extended</h4>
+                                                                            </div>
+
+                                                                            <div class="col-2 text-center my-auto">
+                                                                                <div class="card card-block d-flex border-orange">
+                                                                                <div class="card-body align-items-center d-flex justify-content-center" matTooltip="{{paymentDetails.pendingCount}} Payments" matTooltipClass="dashboardTooltip bg-orange">
+                                                                                     {{paymentDetails.pendingCount | number}}
+                                                                                </div>
+                                                                                </div>
+                                                                                <h4>Total Pending</h4>
+                                                                            </div>
+
+                                                                            <div class="col-1 cursorPointer"></div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-12 lastUpdatedTxt text-center">
+                                                                                Last Updated {{mandateDetails.lastUpdateDateTime | date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </mat-tab> -->
+                                                        <mat-tab label="NACH Payment - All">
+                                                            <div class="row">
+                                                                <div class="col-6 currency text-left">
+                                                                    <p>Currency: INR</p>
+                                                                </div>
+                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 achDebitCredit">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <p>Total Presented</p>
+                                                                            <hr>
+                                                                            <h2>{{paymentDetails.totalAmount | number :
+                                                                                '.2-2'}}
+                                                                            </h2>
+                                                                            <hr>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label>Number of transactions</label>
+                                                                            <h3>{{paymentDetails.totalCount | number}}</h3>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime |
+                                                                            date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-green">Total Settled</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-green">{{paymentDetails.settledAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3 class="">{{paymentDetails.settledCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-meroon">Total Return</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-meroon">{{paymentDetails.returnedAmount
+                                                                                            |
+                                                                                            number : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3 class="">{{paymentDetails.returnedCount
+                                                                                            |
+                                                                                            number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-light-blue">Total Extended</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-light-blue">{{paymentDetails.extendedAmount
+                                                                                            |
+                                                                                            number : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3 class="">{{paymentDetails.extendedCount
+                                                                                            |
+                                                                                            number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-orange">Total Pending</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-orange">{{paymentDetails.pendingAmount
+                                                                                            |
+                                                                                            number : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3 class="">{{paymentDetails.pendingCount
+                                                                                            |
+                                                                                            number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="ACH Debit">
+                                                            <div class="row">
+                                                                <div class="col-6 currency text-left">
+                                                                    <p>Currency: INR</p>
+                                                                </div>
+                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 achDebitCredit">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <p>Total Presented</p>
+                                                                            <hr>
+                                                                            <h2>{{achDrDetails.totalAmount | number :
+                                                                                '.2-2'}}</h2>
+                                                                            <hr>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label>Number of transactions</label>
+                                                                            <h3>{{achDrDetails.totalCount | number}}</h3>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime |
+                                                                            date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-green">Total Settled</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-green">{{achDrDetails.settledAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.settledCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-meroon">Total Return</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-meroon">{{achDrDetails.returnedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.returnedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-light-blue">Total Extended</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-light-blue">{{achDrDetails.extendedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.extendedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-orange">Total Pending</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-orange">{{achDrDetails.pendingAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.pendingCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="ACH Credit">
+                                                            <div class="row">
+                                                                <div class="col-6 currency text-left">
+                                                                    <p>Currency: INR</p>
+                                                                </div>
+                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 achDebitCredit">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <p>Total Presented</p>
+                                                                            <hr>
+                                                                            <h2>{{achCrDetails.totalAmount | number :
+                                                                                '.2-2'}}</h2>
+                                                                            <hr>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label>Number of transactions</label>
+                                                                            <h3>{{achCrDetails.totalCount | number}}</h3>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime |
+                                                                            date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-green">Total Settled</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-green">{{achCrDetails.settledAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achCrDetails.settledCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-meroon">Total Return</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-meroon">{{achCrDetails.returnedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achCrDetails.returnedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-light-blue">Total Extended</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-light-blue">{{achCrDetails.extendedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achCrDetails.extendedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-orange">Total Pending</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-orange">{{achCrDetails.pendingAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achCrDetails.pendingCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <mat-tab label="ACH Debit - OnUs">
+                                                            <div class="row">
+                                                                <div class="col-6 currency text-left">
+                                                                    <p>Currency: INR</p>
+                                                                </div>
+                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                    <svg-icon matTooltip="Refresh" src="assets/images/Artboard 5.svg"
+                                                                        (click)="refresh()"></svg-icon>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row h-100 achDebitCredit">
+                                                                <div class="col-6 my-auto text-center">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <p>Total Presented</p>
+                                                                            <hr>
+                                                                            <h2>{{achDrDetails.totalAmount | number :
+                                                                                '.2-2'}}</h2>
+                                                                            <hr>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label>Number of transactions</label>
+                                                                            <h3>{{achDrDetails.totalCount | number}}</h3>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12 lastUpdatedTxt text-center">
+                                                                            Last Updated
+                                                                            {{mandateDetails.lastUpdateDateTime |
+                                                                            date:'dd-MM-yyyy hh:mm:ss' }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 pl-0 my-auto">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-green">Total Settled</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-green">{{achDrDetails.settledAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.settledCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-meroon">Total Return</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-meroon">{{achDrDetails.returnedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.returnedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-light-blue">Total Extended</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-light-blue">{{achDrDetails.extendedAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.extendedCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <mat-card>
+                                                                                <p class="bg-orange">Total Pending</p>
+                                                                                <div class="row  h-100">
+                                                                                    <div class="col-auto mr-auto  my-auto">
+                                                                                        <h2 class="text-orange">{{achDrDetails.pendingAmount
+                                                                                            | number
+                                                                                            : '.2-2'}}</h2>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>Number of transactions</label>
+                                                                                        <h3>{{achDrDetails.pendingCount
+                                                                                            | number}}</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-card>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </mat-tab>
+                                                        <!-- <mat-tab label="ABPS">
+                                                                            <div class="row">
+                                                                                <div class="col-6 currency text-left">
+                                                                                    <p>Currency: INR</p>
+                                                                                </div>
+                                                                                <div class="col-6  paymentRefreshIcon text-right">
+                                                                                    <svg-icon src="assets/images/Artboard 5.svg"></svg-icon>
+                                                                                </div>
+                                                                            </div>
+                                                                    </mat-tab> -->
+                                                    </mat-tab-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-sidebar-container>
+                    </div>
+                    <!-- Payment tabs End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

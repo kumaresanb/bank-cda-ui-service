@@ -1,0 +1,13 @@
+.vertical_center{min-height: 100%;min-height: 81vh;display: flex;align-items: center;
+}
+
+.mat-card{
+    min-height: 400px;display: flex;align-items: center;justify-content: center;text-align:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.2);border-radius: 0.5rem;    border: 1px solid #ccc;
+    .failure{color:red; }
+    .success{color: green;}
+    p{font-weight:600;}
+    .btn-ok{background: #2373a3;color:#fff;
+        &:hover{background: #fff;color: #2373a3;border:1px solid #2373a3;}
+    }
+}

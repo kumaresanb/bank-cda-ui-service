@@ -1,0 +1,183 @@
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row  mt-3">
+            <div class="col-md-8">
+                <span class="backnavIcon" (click)="navigateBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                <h4 class="text-orange">Payment Detail View</h4>
+                <p>Pending Release > File > Transaction</p>
+            </div>
+  
+            <div class="col-md-4 text-right small align-self-end">
+            </div>
+        </div>
+        <hr>
+    </div>
+  
+    <div class="mt-2 viewTransaction">
+        <div class="row">
+            <div class="col-12">
+                <h3>Bulk file name: {{routedObject.orgFilename}}</h3>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Payment system: NACH</li>
+                    <li class="list-inline-item">Payment type: {{routedObject.txnType}}</li>
+                    <li class="list-inline-item">Trasaction reference number: <span class="text-orange">{{routedObject.orgTxnRef}}</span></li>
+                    <li class="list-inline-item">UMRN:{{routedObject.umrn}}</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="row paymentErrText" *ngIf="routedObject.txnStatusCode=='PVE-500'">
+            <div class="col-md-12">
+                <p><span><i class="fa fa-times" aria-hidden="true"></i></span>This transaction has error. {{routedObject.cbsResponse}}. Please correct it and resend it for approval.</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-6">
+                <h4 class="text-meroon">Sender</h4>
+                <hr class="mt-0 mb-1 border-org">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <h5>{{routedObject.orgAcNum}}</h5>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Name</label>
+                            <h5>{{routedObject.orgAcName}}</h5>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Bank Name & Code</label>
+                            <h5>{{routedObject.spoBankCode}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <h4 class="text-meroon">Receiver</h4>
+                <hr class="mt-0 mb-1 border-org">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Account Number</label>
+                                    <h5>{{routedObject.payAccNum}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="routedObject.onus==1">
+                                <button type="button" class="btn btn-default verifyBtn" (click)="accountInquiry(routedObject.payAccNum)">Verify</button>
+                            </div>
+                            <!-- <div class="col-md-12">
+                                <p class="verifyTxt">Sample text</p>
+                            </div> -->
+
+                            <div class="col-12 mt-12" *ngIf="accountVerifyResponse?.statusFlg === '1'">
+                                    <span class="verifyTxt">FAILURE</span>
+                                    <span class="verifyTxt">{{accountVerifyResponse.errorDesc}}</span>
+                                </div>
+                                
+  
+                                <div class="col-12 mt-12" *ngIf="accountVerifyResponse?.statusFlg === '0'">
+                                  <span class="verifyTxt">SUCCESS</span>
+                                  <span class="verifyTxt">{{accountVerifyResponse.acctName}}</span>
+                                  <span class="verifyTxt">{{accountVerifyResponse.acctStatus}}</span>
+                              </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account Name</label>
+                            <h5>{{routedObject.payAccName}}</h5>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Bank Name & Code</label>
+                            <h5>{{routedObject.payBankCode}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <h5><span class="text-orange font-span">{{routedObject.claimAmt}}</span></h5>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Processing Queue Status</label>
+                    <h5>Pending Release</h5>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <!-- <div class="row text-center my-4">
+            <div class="col-12">
+                <button class="btn approveBtn mr-3">
+                    Approve
+                    <i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+                </button>
+                <button class="btn rejectBtn">
+                        Reject
+                        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <hr> -->
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group" *ngIf="routedObject.onus == 1">
+                    <label>Pay / No Pay</label>
+                    <br>
+                    <input style="width: 100%;" *ngIf="userRole==='CHECKER' && routedObject.onus == 1 && routedObject.txnStatusCode !=='PVE-500'" [(ngModel)]="reasonDescription.rsnDesc" disabled>
+                    <select *ngIf="userRole==='CHECKER' && routedObject.onus == 1 && routedObject.txnStatusCode ==='PVE-500'" class="form-control" size="5" [(ngModel)]="onUsreason">
+                        <option [value]="reason.rsnCode" *ngFor="let reason of reasonArr">{{reason?.rsnDesc}}</option>
+                    </select>
+                </div> 
+                <span class="error-message" *ngIf="drpDownReason">Please select a reason for removal</span>
+            </div>
+            <div class="col-6 small align-self-end">
+                <div class="form-group">
+                    <label>Reason for remove</label>
+                    <textarea                   
+                    class="form-control" rows="1" [(ngModel)]="rejectReason" 
+                    id="comment"></textarea>
+                </div>
+
+        <div class="row mb-4 uploadDetailsBlock mt-2">
+            <div class="col-12">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Uploaded by : {{routedObject.userName}}</li>
+                    <li class="list-inline-item">Transaction creation date & time {{routedObject.receivedDttTime}}</li>
+                    <li class="list-inline-item">Payment Reference Number: {{routedObject.payRef}}</li>
+                </ul>
+            </div>
+                <span class="error-message" *ngIf="rjctError">Please provide a reason for removal</span>
+            </div>
+        </div>
+
+            <div class="col-12 mt-4 text-center" *ngIf="userRole==='CHECKER'">
+                    <button class="btn removeBtn mr-3" *ngIf="userRole==='CHECKER' && routedObject.onus == 1 && routedObject.txnStatusCode !=='PVE-500'" (click)="acceptOnUs()">Accept</button>
+                <button class="btn removeBtn mr-3" *ngIf="userRole==='CHECKER' && routedObject.onus != 1" (click)="removeReject()">Remove</button>
+                <button class="btn enquiryBtn" *ngIf="userRole==='CHECKER' && routedObject.txnStatusCode ==='PVE-500' && routedObject.onus ==1" (click)="submitOnUs()">Submit</button>
+                <button class="btn btn-reject" *ngIf="userRole==='CHECKER' && routedObject.onus =='1' && routedObject.txnStatusCode !=='PVE-500'" (click)="rejectOnUs()">Reject</button>
+                <button class="btn btn-close" (click)="navigateBack()">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
+  

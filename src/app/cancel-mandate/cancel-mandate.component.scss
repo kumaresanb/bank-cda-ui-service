@@ -1,0 +1,21 @@
+.cancelMandate{
+    .mat-card{padding: 15px;border-bottom-left-radius: 15px;min-height: 350px;}
+    .imageBlock{padding-top: 3.5rem;border:2px dashed #ccc;
+        p{font-size: 0.8rem;margin-bottom: 0;padding-bottom: 2.8rem;}
+        h5{font-size: 1.1rem;margin-bottom: 0;}
+        h4{font-size: 1rem;color: #888;padding: 1.5rem 0;}
+       
+    }
+    .image-upload > input{display: none;}
+    .image-upload p{font-size: 13px;margin-top: 0.4rem;}
+    .image-upload img{cursor: pointer;}
+    .thumbnailImg{border:2px dashed #888;width:30px;height:30px;margin-top:0.8rem;cursor: pointer;}
+    .mat-card.formBlock{border-bottom-left-radius: 0px;border-top-right-radius: 15px;border-top:1px solid #e6e6e6;}
+    .formBlock{
+        label{margin-bottom: 0px;font-size: 0.75rem;color:#00476d;}
+        h5{font-size: 0.9rem;}
+        .mat-checkbox{font-size: 12px !important;position: relative;top: 0px;}  
+        .form-group{margin-bottom: 0;}
+        .sub-text{font-size: 11px;color:#ff8500;}
+    }
+}

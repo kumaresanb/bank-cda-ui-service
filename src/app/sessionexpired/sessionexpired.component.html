@@ -1,0 +1,18 @@
+<!-- <div class="btn btn-warning">
+    Your session has expired !! Please
+    <a [routerLink]="['']" mdbWavesEffect> Login </a> again.
+</div> -->
+
+<div class="vertical_center">
+    <div class="container sessionexpired">
+        <div class="row justify-content-md-center text-center ">
+            <div class="col-12">
+              <svg-icon src="assets/images/clock.svg"></svg-icon>
+               <h1 *ngIf="!status">{{sessionExpiredMessage}}</h1>
+               <h1 *ngIf="status">{{logoutMessage}}</h1>  
+               <h3>Please Login again</h3>
+            </div>
+          </div>
+    </div>
+</div>
+  

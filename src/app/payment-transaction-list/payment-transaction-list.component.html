@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div class="page-header">
+      <div class="row  my-3">
+          <div class="col-md-8">
+              <span class="backnavIcon" (click)="navigateBack()"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              <h4 class="text-orange">NACH Payment <span><i class="fa fa-angle-right" aria-hidden="true"></i> Payment Uploaded files</span></h4>
+          </div>
+
+          <div class="col-md-4 text-right small align-self-end">
+          </div>
+      </div>
+      <hr>
+  </div>
+
+  <div class="paymentGrid tableLayout mt-3">
+          <div class="row">
+                <div class="col-12">
+                      <mat-card>
+                       <div class="grid-header">
+                              <div class="row">
+                                  <div class="col-7 align-self-start text-left">
+                                      <h5 class="text-blue">Transaction List</h5>
+                                      <p>Pending Release > File ({{fileName}})</p>
+                                  </div>
+
+                                  <div class="col-5 text-right">
+                                      <span class="mr-3">{{pageStart}} to {{pageEnd}} out of {{totalCount}}</span>
+                                      <label for="email">Result per page:</label>
+                                      <select class="form-control"  (change)="pageSizeChanged($event)" [(value)]="pageSize">
+                                          <option *ngFor="let selectRange of resultRangeValue"  [value]="selectRange.value">{{ selectRange.viewValue }}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row mt-2">
+                              <div class="col-12 px-0">
+                                  <div class="float-searchicon" (click)="gridsearch = !gridsearch" ><span matTooltip="Search for particular column"><i class="fa fa-search" aria-hidden="true"></i> </span></div>
+                                  <div class="slide-table">
+                                      <div class="float-buttons"><button id="slideleft" (click)="scrollLeft()"><span><</span></button></div>
+                                          <div id="container-table" #tablescroll>
+                                              <table class="table table-bordered table-striped ">
+                                                      <thead>
+                                                          <tr>
+                                                              <th *ngFor="let header of paymentTransactionHeader">{{getSplitWord(header)}}<span>{{item1.join(" ")}}</span><br><span>{{item2.join(" ")}}</span></th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          <tr class="gridSearch" *ngIf="gridsearch">
+                                                              <td></td>
+                                                              <td><input type="text" class="form-control"></td>
+                                                              <td><input type="text" class="form-control" disabled></td>
+                                                              <td><input type="text" class="form-control" disabled></td>
+                                                              <td><input type="text" class="form-control" disabled></td>
+                                                              <td><input type="text" class="form-control"  disabled></td>
+                                                              <td><input type="text" class="form-control"  disabled></td>
+                                                          </tr>
+                                                          <tr (click)="viewTransaction(data)" *ngFor="let data of paymentTxnGridData; let i=index">  
+                                                              <td>{{data.orgTxnRef}}</td>
+                                                              <td>{{data.umrn}}</td>
+                                                              <td>{{data.orgIdCode}}</td>
+                                                              <td>{{data.claimAmt}}</td>
+                                                              <td>{{data.payBankCode}}</td>
+                                                              <td>{{data.payAccNum}}</td>                                                          
+                                                          </tr>
+                                                      </tbody>
+                                              </table>                                            
+                                          </div>
+                                        <div class="float-buttons"><button id="slideright" (click)="scrollRight()"><span>></span></button></div>
+                                  </div>
+                                      
+                              </div>
+                          </div>
+   
+                          <div class="row mt-2 mb-4">
+                                  <div class="mr-auto"></div>
+                                  <!-- <div class="col-4">
+                                      <button class="btn approveBtn mr-3">
+                                          Approve
+                                          <i class="fa fa-thumbs-o-up text-right" aria-hidden="true"></i>
+                                      </button>
+                                      <button class="btn rejectBtn">
+                                              Reject
+                                              <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                      </button>
+                                  </div> -->
+                                  <div class="col-3 text-right mandatePagination">
+                                          <button [disabled]="previousDisabled" class="btn btn-default " (click)="previousClicked()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i> Prev</button>
+                                          <!-- <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="pageNumber"> -->
+
+                                          {{currentPage+1}}/{{totalPages}}
+                                          <button [disabled]="nextDisabled" class="btn btn-default" (click)="nextClicked()">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                                  </div>
+                              </div>
+                      </mat-card>
+                </div>
+         </div>
+         <div class="row text-center mt-4">
+             <div class="col-md-12">
+                <button class="btn btn-close" (click)="navigateBack()">Back</button>
+             </div>
+         </div>
+   </div>
+</div>
+
+

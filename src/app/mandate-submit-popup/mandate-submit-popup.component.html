@@ -1,0 +1,40 @@
+<div class="popUpSec">
+  <div class="row text-center" *ngIf="(data.msgType==='SUCCESS') ; else otherTemp">
+    <div class="col-12">
+      <span class="successIcon"><i class="fa fa-check" aria-hidden="true"></i></span>
+      <p>{{data.successOrfailMsg}}</p>
+      <p>{{data.msg}}</p>
+      <button class="btn btn-default btn-ok"  (click)="onNoClick('OK')"> OK</button>
+      <!-- <button class="btn btn-default btn-close"(click)="onNoClick('CLOSE')"> Close</button> -->
+    </div>
+  </div>
+
+  <ng-template #otherTemp>
+      <div class="row text-center" >
+          <div class="col-12">
+            <span class="failureIcon"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <p>{{data.successOrfailMsg}}</p>
+            <p>{{data.msg}}</p>
+            <button class="btn btn-default btn-ok" (click)="onNoClick('OK')"> OK</button>
+            
+          </div>
+        </div>
+  </ng-template>
+
+  <!-- For Rremove or Release  -->
+  <ng-template #remove>
+      <div class="row text-center remove" >
+          <div class="col-12">
+              <span class="warning"><i class="fa fa-exclamation" aria-hidden="true"></i></span>
+              <p>Would you like to remove</p>
+              <h6>Transaction with reference number <span class="text-orange">787654357808765432</span> from releasing it to Sponsor bank?</h6>
+              <button class="btn btn-default btn-yes">Yes !</button>
+              <button class="btn btn-default btn-close" (click)="onNoClick('OK')"> No</button>
+              <button class="btn btn-default btn-close"(click)="onNoClick('CLOSE')"> Close</button>          
+          </div>
+      </div>
+  </ng-template>
+</div>
+
+
+

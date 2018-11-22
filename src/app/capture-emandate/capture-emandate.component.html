@@ -1,0 +1,223 @@
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row  mt-3">
+      <div class="col-md-7">
+        <span class="backnavIcon" [routerLink]="['/homepage']"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <h4 class="text-orange">Capture Emandate</h4>
+      </div>
+      <div class="col-md-5 text-right small align-self-end createIcons">
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="emandateSec">
+    <form [formGroup]="emandateForm" (ngSubmit)="proceed()">
+      <div class="row">
+
+        <!-- ------Mandate Information Starts------ -->
+        <div class="col-6">
+          <mat-card>
+            <h5>Mandate Information</h5>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Utility Code" formControlName="utilityCode" required>
+                  
+                  <!-- <mat-select placeholder="Utility Code" formControlName="utilityCode" required>
+                    <mat-option *ngFor="let code of utilityCode" [value]="code">
+                      {{code}}
+                    </mat-option>
+                  </mat-select> -->
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.utilityCode" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('utilityCode').hasError(validation.type) && (emandateForm.get('utilityCode').dirty || emandateForm.get('utilityCode').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput placeholder="Sponsor Bank Code" formControlName="sponsorBankCode" required>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.sponsorBankCode" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('sponsorBankCode').hasError(validation.type) && (emandateForm.get('sponsorBankCode').dirty || emandateForm.get('sponsorBankCode').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput placeholder="Amount" formControlName="amount" required>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.amount" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('amount').hasError(validation.type) && (emandateForm.get('amount').dirty || emandateForm.get('amount').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput placeholder="Referrence2" formControlName="referrence2">
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.referrence2" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('referrence2').hasError(validation.type) && (emandateForm.get('referrence2').dirty || emandateForm.get('referrence2').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" placeholder="Start date" formControlName="startDate"
+                    required>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.startDate" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('startDate').hasError(validation.type) && (emandateForm.get('startDate').dirty || emandateForm.get('startDate').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-select placeholder="Product Type" formControlName="productType" required>
+                    <mat-option *ngFor="let type of productType" [value]="type">
+                      {{type}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.productType" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('productType').hasError(validation.type) && (emandateForm.get('productType').dirty || emandateForm.get('productType').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <mat-select placeholder="Amount Type" formControlName="debitType" required>
+                    <mat-option *ngFor="let type of debitType" [value]="type.value">
+                      {{type.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.debitType" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('debitType').hasError(validation.type) && (emandateForm.get('debitType').dirty || emandateForm.get('debitType').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput placeholder="Referrence1" formControlName="referrence1">
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.referrence1" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('referrence1').hasError(validation.type) && (emandateForm.get('referrence1').dirty || emandateForm.get('referrence1').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <mat-select placeholder="Frequency" formControlName="frequency" required>
+                    <mat-option *ngFor="let frequency of frequency" [value]="frequency.value">
+                      {{frequency.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.frequency" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('frequency').hasError(validation.type) && (emandateForm.get('frequency').dirty || emandateForm.get('frequency').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker1" formControlName="enddate" placeholder="End date">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+
+
+
+        <!-- -------Mandate Information Ends--------- -->
+
+        <div class="col-6">
+          <mat-card>
+            <h5>Customer & Bank Account Information</h5>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput placeholder="Paying Bank Code" formControlName="payingbankCode" required>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.payingbankCode" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('payingbankCode').hasError(validation.type) && (emandateForm.get('payingbankCode').dirty || emandateForm.get('payingbankCode').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-select placeholder="Account Type" formControlName="accountType" required>
+                    <mat-option *ngFor="let accountType of accountType" [value]="accountType.value">
+                      {{accountType.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.accountType" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('accountType').hasError(validation.type) && (emandateForm.get('accountType').dirty || emandateForm.get('accountType').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+
+                <!-- <mat-form-field>
+                  <input matInput placeholder="Account Type" formControlName="payeebankCode" required>
+                </mat-form-field> -->
+              </div>
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Account Number" formControlName="accountNumber" required>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.accountNumber" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('accountNumber').hasError(validation.type) && (emandateForm.get('accountNumber').dirty || emandateForm.get('accountNumber').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Customer Account Name" formControlName="accountName" required>
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.accountName" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('accountName').hasError(validation.type) && (emandateForm.get('accountName').dirty || emandateForm.get('accountName').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput placeholder="Mobile Number" formControlName="mobileNumber">
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.mobileNumber" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('mobileNumber').hasError(validation.type) && (emandateForm.get('mobileNumber').dirty || emandateForm.get('mobileNumber').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput placeholder="Telephone Number" formControlName="telNumber">
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.telNumber" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('telNumber').hasError(validation.type) && (emandateForm.get('telNumber').dirty || emandateForm.get('telNumber').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+              <div class="col-12">
+                <mat-form-field>
+                  <input matInput placeholder="Email Address" formControlName="mailId">
+                </mat-form-field>
+                <mat-error *ngFor="let validation of validation_messages.mailId" id="errpayeeBankCode">
+                  <mat-error class="error-message" *ngIf="emandateForm.get('mailId').hasError(validation.type) && (emandateForm.get('mailId').dirty || emandateForm.get('mailId').touched)">{{validation.message}}
+                  </mat-error>
+                </mat-error>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-12">
+          <button type="submit" class="btn btn-common mr-3">Proceed</button>
+          <button type="button" class="btn btn-close">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

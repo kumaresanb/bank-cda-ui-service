@@ -1,0 +1,121 @@
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row  my-3">
+            <div class="col-md-8">
+                <span class="backnavIcon" [routerLink]="['/mandate']"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                <h4 class="text-orange">NACH Mandate <span><i class="fa fa-angle-right" aria-hidden="true"></i>
+                        {{qDesc}}</span></h4>
+            </div>
+
+            <div class="col-md-4 text-right small align-self-end">
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="mandateGrid tableLayout mt-3">
+        <div class="row">
+            <div class="col-12">
+                <mat-card>
+                    <div class="grid-header">
+                        <div class="row">
+                            <div class="col-3 align-self-start text-left">
+                                <h5 class="text-blue">Uploaded Files Summary</h5>
+                            </div>
+
+                            <div class="col-9 align-self-end text-right">
+                                <span class="mr-3">{{startRow}} to {{showingRows}} out of {{qCount}}</span>
+                                <label for="email">Result per page:</label>
+                                <select class="form-control" [(value)]="selected" (change)="pageChanged($event)">
+                                    <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{
+                                        selectRange.viewValue }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-12 px-0">
+                            <table class="table table-bordered table-striped ">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let header of mandateQueueHeader">{{getSplitWord(header)}}<span>{{item1.join("
+                                                ")}}</span><br><span>{{item2.join(" ")}}</span></th>
+                                        <th (click)="gridsearch=!gridsearch"><i class="fa fa-search" aria-hidden="true"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="gridSearch" *ngIf="gridsearch">
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.mndRefNo"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.statusDesc"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.mandateType"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.amt" (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.payerAccNum"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.payerBankCode"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.createdBy"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td><input type="text" class="form-control" [(ngModel)]="searchObj.createdDate"
+                                                (blur)="gridsearchTable($event)"></td>
+                                        <td></td>
+                                    </tr>
+                                    <!-- <tr *ngFor="let data of mandateObj" (click)="viewMandate(data.mndRefNo)">
+                                                    <td *ngIf="showAuthAction">
+                                                        <mat-checkbox [(ngModel)]="data.checked"></mat-checkbox>
+                                                    </td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.mndRefNo}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.processStatus.statusDesc}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.mandateType}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.amt}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.payerAccNum}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.payerBankCode}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.createdBy}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)">{{data.createdDate | date: dateFormat}}</td>
+                                                    <td (click)="viewMandate(data.mndRefNo)"></td>
+                                                </tr> -->
+                                    <tr *ngFor="let data of mandateObj" (click)="viewMandate(data.mndRefnum,data.statusCode)">
+                                        <td *ngIf="showAuthAction">
+                                            <mat-checkbox [(ngModel)]="data.checked"></mat-checkbox>
+                                        </td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.mndRefnum}}</td>
+                                        <!-- <td (click)="viewMandate(data.mndRefNo)">{{data.processStatus?.statusDesc}}</td> -->
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.mandateType}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.maxAmt}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.payerAccountNum}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.payerBankCode}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.createUserId}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)">{{data.createDate | date:
+                                            dateFormat}}</td>
+                                        <td (click)="viewMandate(data.mndRefnum,data.statusCode)"></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-3 text-right mandatePagination">
+                            <button class="btn btn-default " (click)="previousButtonClicked($event)" [disabled]="pagination.currPage===1"><i
+                                    class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+                            <input type="text" class="text-center paginationInput form-control" style="width:30px;"
+                                [value]="pagination.currPage"> / {{pagination.totalPages}}
+                            <button class="btn btn-default " (click)="nextButtonClicked($event)" [disabled]="qCount===showingRows || pagination.currPage===pagination.totalPages">Next
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+        <div class="row mt-3 text-center">
+            <div class="col-12">
+                <button class="btn btn-close" [routerLink]="['/mandate']">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

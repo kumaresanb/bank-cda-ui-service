@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-brown">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <div class="navbar-nav mr-auto header-left">
+            <span class="mr-3" *ngIf="isAuthenticated" [matMenuTriggerFor]="Mainmenu" #menuTrigger="matMenuTrigger" 
+            (mouseenter)="menuTrigger.openMenu()"><i class="fa fa-th" aria-hidden="true" id="mainmenu"></i></span>
+            <mat-menu #Mainmenu="matMenu" class="matMenuPanel bg_Menu">
+                <ng-container *ngFor="let menu of matmenugroup">
+                    <button mat-menu-item  [routerLink]="['/'+menu.link]">{{menu?.title}}</button>
+                </ng-container>
+                <!-- <button mat-menu-item  [routerLink]="['/filesummary']">File Summary</button>
+                <button mat-menu-item  [routerLink]="['/captureEmandate']">Capture Emandate</button> -->
+                <!-- <button mat-menu-item  [routerLink]="['/success']">Success</button> -->
+            </mat-menu>
+            <img src="assets/images/flux-cda.png" class="img-fluid">
+        </div>
+    </div>
+    <div class="mx-auto order-0 header-center">
+        <a class="navbar-brand mx-auto cda-logo" href="#">Corporate direct access</a>
+        <p class="text-center" *ngIf="isAuthenticated">{{dateTodisplay | date:[dtFormat]}}</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2 header-right">
+        <div class="navbar-nav ml-auto" *ngIf="!isAuthenticated"><span> Help <i class="fa fa-question ml-2" aria-hidden="true"></i></span></div>
+        <div class="navbar-nav ml-auto" *ngIf="isAuthenticated">
+            <span class="ml-2">
+                <img [matMenuTriggerFor]="menu"  #menuTrigger="matMenuTrigger" 
+                (mouseenter)="menuTrigger.openMenu()" src="assets/images/user-icon.png" height="30" width="30" id="appUserDetails">
+                <!-- <img (click)="logout()" src="assets/images/user-icon.png" height="30" width="30" id="appUserDetails"> -->
+            </span>
+            <mat-menu #menu="matMenu" class="logoutMenu">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="text-left"><span class="text-orange">{{userName}}</span></p>
+                        <!-- <p class="text-left small">ID 88673856554</p> -->
+                        <p class="text-left small">Role: <span class="text-orange">{{userRole}}</span></p>
+                        <!-- <p class="text-left small ng-binding">LAST LOGIN<br> 2018-10-03 05:17:33 PM</p> -->
+                    </div>
+                    <div class="col-4">
+                        <img src="assets/images/user.jpeg" class="img-fluid">
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-orange text-uppercase  marT15" (click)="logout()" id="rtpLogin"
+                            >Logout</button>
+                    </div>
+                </div>                            
+            </mat-menu>
+        </div>
+    </div>
+</nav>
+
+<div class="row floatingDiv" *ngIf="isAuthenticated">
+    <div class="col-12">
+        <div class="bg-dark-grey headerFloatingText">{{tenantId}} | {{tenantName}}</div>
+    </div>
+</div>

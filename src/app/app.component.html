@@ -1,0 +1,14 @@
+<div class="" *ngIf="isAuthenticated; else other">
+    <app-header></app-header>
+    <div class="content-main">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+</div>
+<ng-template #other>
+        <app-header></app-header>
+        <div>
+                <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+</ng-template>

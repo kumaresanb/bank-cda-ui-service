@@ -1,0 +1,65 @@
+.uploadIcon{
+    .list-inline-item{font-size:15px;color: #2373a3;cursor:pointer;}
+     ul{margin-bottom: 0px;}
+     .list-inline-item span{margin-right: 0.5rem;}
+     .list-inline-item:not(:last-child){margin-right: 0.5rem;}
+     i{font-size: 20px;color:#373737;vertical-align: middle;}
+     
+}
+
+.uploadSec{
+    .mt-neg8{margin-top: -0.9rem;}
+    .ml-8{margin-left:8.4rem;}
+    
+    .file-upload{
+        display:block;text-align:center;font-size: 12px;
+        .file-select{
+           // display:block;color: #34495e;height:auto;background:#FFFFFF;overflow:hidden;position:relative;
+           text-align:left;
+           .file-select-button{background:#848484;padding: 1.4% 1.9%;display:inline-block;font-size: 14px;
+            border-radius: 5px;color: #fff;width:27%;text-align: center;cursor:pointer;}
+            .file-select-name{line-height:normal;padding:10px;font-size:15px;color:#ff8500;width:73%;float:right;word-wrap: break-word;}
+            input[type=file]{z-index:100;position:absolute;height:100%;width:100%;top:0;left:0;
+            opacity:0;filter:alpha(opacity=0);}         
+            input{display: none;}               
+        }
+        
+    }
+   
+    .maxUploadTxt{
+        margin-top: -10px;
+        p{font-size: 11px;margin-bottom: 0px;    color: #8b8b8b;}
+        span{font-weight: bold;}
+        a{cursor: pointer;text-decoration: underline;
+            &:hover{color: #ff8500;}
+        }
+    }
+    .btn-upload{
+        margin-top: 0em;
+        background: #489229;color:#fff;border-radius:5px;
+        span{border-left: 1px solid #fff;padding: 0.7rem 4rem;}
+        svg-icon{width:1.2rem !important;height:auto;vertical-align: middle;position: relative;left: -10px;top:0px;
+            }
+    }
+    .btn-upload:hover{background: #fff;border: 1px solid #489229;color:#489229;}
+
+    .mandateUploadGrid{
+        margin-top: 1.5rem;
+        .mat-card{padding:15px;padding-bottom:0px;border: 1px solid #c1c1c1;border-radius: 10px 0 10px;}
+       
+        table{white-space: nowrap;}
+        label{margin-bottom: 0px !important; cursor: pointer;}
+        .grid-header {
+            p{background: #E5C7CE;font-size: 12px;margin-bottom: 0;color: #C88696;padding: 0.2rem;font-weight: 400;}
+            a{cursor: pointer;color: #5D1720 !important;text-decoration: underline !important;}
+            span{font-size: 14px;padding-top: 4px;padding-left:10px; }
+        }
+        // .approveBtn{
+        //     span{position: relative;left:-19px;}
+        // }
+    }
+}
+
+.file-select-button:hover{
+    background-color: #489229 !important;
+}

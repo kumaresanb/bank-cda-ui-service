@@ -1,0 +1,341 @@
+<div class="row">
+  <div class="col-2 radiobuttonSec">
+    <h6>Select Report Type</h6>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="report" name="report">
+        <mat-radio-button value="Detailed Report" >Detailed Report</mat-radio-button>
+        <mat-radio-button value="Summary Report" >Summary Report</mat-radio-button>
+      </mat-radio-group>
+  </div>
+
+  <div class="col-10">
+    <!-- Detailed Report Start -->
+      <div *ngIf = "report === 'Detailed Report'">
+          <div class="paymentReportSec pl-5">
+              <h5 class="font17 mb-4">Payment Detailed Report</h5>
+               <form [formGroup]="paymentReportForm" (ngSubmit)="viewReportFormSubmit(paymentReportForm.value)">
+                <div class="row">
+                  <div class="col-4">
+                    <mat-form-field>
+                      <mat-select placeholder="Payment Type" id="paymentType" formControlName="paymentType" required>
+                        <mat-option *ngFor="let type of paymentTyp" [value]="type.value">
+                          {{ type.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput placeholder="UMRN" id="umrn" formControlName="umrn">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput type="number" placeholder="Amount" id="amount" formControlName="amount">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Payer Account Number" id="payeeAccNum" formControlName="payerAccountNumber">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput placeholder="ACH Code" id="achCode" formControlName="achCode">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <ngx-mat-drp (selectedDateRangeChanged)="updateRange($event)" [options]="options"></ngx-mat-drp>
+                    <mat-error *ngIf="futureDateSelected">
+                      Future Date cannot be selected!
+                    </mat-error>
+                    <mat-error *ngIf="invalidDateRange">
+                      From-Date cannot be greater than To-Date!
+                    </mat-error>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Transaction Reference Number" id="txnRefNum" formControlName="txnRefNum">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <input matInput placeholder="File Name" id="fileName" formControlName="fileName">
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="col-4">
+                    <mat-form-field>
+                      <mat-select placeholder="Queue Status" id="queueStatus" formControlName="queueStatus">
+                        <mat-option *ngFor="let status of queueStat" [value]="status.valueOne">
+                          {{ status.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+            
+            
+                </div>
+            
+                <div class="row text-center mb-3">
+                  <div class="col-12">
+                    <button class="btn btn-default enquiryBtn" [disabled]="invalidDateRange || futureDateSelected" type="submit">View Report</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+      </div>
+      <!-- Detailed Report End -->
+
+       <!-- Summary Report Start -->
+      <div *ngIf = "report === 'Summary Report'">
+          <div class="summaryReport pl-5">
+              <h5 class="font17">Payment Summary Report</h5>
+              <form [formGroup]="paymentSummaryReportForm" (ngSubmit)="viewSummaryReportFormSubmit(paymentSummaryReportForm.value)">
+                <div class="row">
+                    <div class="col-4">
+                        <mat-form-field>
+                          <mat-select placeholder="Payment Type" id="sumPaymentType" formControlName="sumPaymentType" required>
+                            <mat-option *ngFor="let type of paymentTyp" [value]="type.value">
+                              {{ type.value }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>                        
+                    </div>
+                    <div class="col-4">
+                        <ngx-mat-drp (selectedDateRangeChanged)="updateRange($event)" [options]="options"></ngx-mat-drp>
+                      </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Utility Code" formControlName="sumPayUtilityCode">
+                        </mat-form-field>                        
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                          <input matInput placeholder="File Name" formControlName="sumPayFileName">
+                        </mat-form-field>                        
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                          <input matInput placeholder="UMRN" formControlName="sumPayUMRN">
+                        </mat-form-field>                        
+                    </div>
+                </div>
+
+                <div class="row text-center mb-3">
+                  <div class="col-12">
+                    <button class="btn btn-default enquiryBtn" [disabled]="disableSubmit" type="submit">View Report</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+      </div>
+       <!-- Summary Report End -->
+  </div>
+</div>
+
+
+<!-- Payment Detailed report Grid -->
+
+<div class="" *ngIf = "report === 'Detailed Report'">
+    <div class="row">
+      <div class="col-12"> 
+          <div class="mandateGrid tableLayout" *ngIf="showGrid && !noRecords">
+              <div class="row">
+                <div class="col-12">
+                  <mat-card>
+                    <div class="grid-header">
+                      <div class="row">
+                        <div class="col-3 align-self-start text-left">
+                          <h5 class="text-blue">Report Details</h5>
+                        </div>
+                        <div class="col-9 align-self-end text-right">
+                          <span>
+                            <svg-icon class="cursorPointer" src="assets/images/xls.svg " (click)="download('xls')"></svg-icon>
+                            <svg-icon class="cursorPointer" src="assets/images/csv.svg" (click)="download('csv')"></svg-icon>
+                          </span>
+                          <span class="mr-3">{{min}} to {{max}} out of {{totalRecords}}</span>
+                          <label for="email">Result per page:</label>
+                          <select class="form-control" [(value)]="selected" (change)="pageSizeChanged($event)">
+                            <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{ selectRange.viewValue }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <div class="row mt-2">
+                      <div class="col-12 px-0">
+                        <div class="slide-table">
+                          <div class="float-buttons">
+                            <button id="slideleft" *ngIf="showHide" (click)="scrollLeft()">
+                              <span>
+                                <</span>
+                            </button>
+                          </div>
+                          <div id="container-table" #tablescroll>
+                            <table class="table table-bordered table-striped ">
+                              <thead>
+                                <tr>
+                                    <th (click)="sortGrid(i)" *ngFor="let header of tableHeader; let i= index">{{getSplitWord(header)}}
+                                      <span>{{item1.join(" ")}}</span>
+                                      <br>
+                                      <span>{{item2.join(" ")}}</span>
+                                    </th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let data of paymentReportGrid">
+                                  <!-- <td *ngFor="let item of data; let i=index">{{item}}</td> -->
+                                  <td>{{data[0]}}</td>
+                                  <td>{{data[1]}}</td> 
+                                  <td>{{data[2]}}</td>
+                                  <td>{{data[3]}}</td>
+                                  <td>{{data[4]}}</td>
+                                  <td>{{data[5]}}</td>
+                                  <td>{{data[6] | number:'.2-2' }}</td> 
+                                  <td>{{data[7] }}</td>
+                                  <td>{{data[8]}}</td>
+                                  <td>{{data[9]}}</td>
+                                  <td>{{data[10] | date: [dateTimeFormat] }}</td>
+                                  <td>{{data[11] | date: [dateFormat]  }}</td>
+                                  <td>{{data[12]}}</td>                      
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="float-buttons">
+                            <button id="slideright" *ngIf="showHide1" (click)="scrollRight()">
+                              <span>></span>
+                            </button>
+                          </div>
+                        </div>
+                     </div>
+                    </div>
+          
+                    <div class="row mt-2 mb-4">
+                      <div class="mr-auto"></div>
+                      <div class="col-3 text-right mandatePagination" *ngIf="!noRecords">
+                        <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()">
+                          <i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev
+                        </button>
+                        <!-- <input type="text" class="text-center paginationInput form-control" style="width: 30px;" value="1"> / 20 -->
+          
+                        {{pageNumber}}/ {{totalPages}}
+          
+                        <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">
+                          Next
+                          <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </div>
+              
+            </div>
+          
+            <div class="row text-center mb-3" *ngIf="showGrid">
+                <div class="col-12">
+                  <span>
+                    <span>Download in</span>
+                    <svg-icon class="cursorPointer" src="assets/images/xls.svg" (click)="download('xls')"></svg-icon>
+                    <svg-icon class="cursorPointer" src="assets/images/csv.svg" (click)="download('csv')"></svg-icon>
+                  </span>
+                </div>
+              </div>
+      </div>
+    </div>
+</div>
+
+<!-- Summary Grid -->
+<div class="summaryGrid my-3" *ngIf = "report === 'Summary Report'">
+    <div class="row">
+        <div class="col-12">
+          <div class="grid-header">
+              <div class="row">
+                <div class="col-3 align-self-start text-left">
+                  <h5 class="text-blue my-3">Payment Summary Report</h5>
+                </div>
+                <div class="col-9 align-self-end text-right">
+                  <span> Download :
+                    <svg-icon (click)="downoladSummaryViewReport(paymentSummaryReportForm.value)" class="cursorPointer" src="assets/images/xls.svg "></svg-icon>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div>
+      
+        <div class="col-2">
+          <p>Payment Type : {{paymentSummaryReportForm.value.sumPaymentType}}</p>
+        </div>
+      
+        <div class="col-4 align-self-start text-center">
+          <p>Date Range : {{range.fromDate | date:'dd-MM-yyyy' }} to {{range.toDate | date:'dd-MM-yyyy'}}</p>
+        </div>
+      
+        <div class="col-3 align-self-end text-right">
+          <p>ACH Code/Utility Code : {{paymentSummaryReportForm.value.sumPayUtilityCode}}</p>
+        </div>
+      
+        <div class="col-3 align-self-end text-right">
+            <p>File Name : {{paymentSummaryReportForm.value.sumPayFileName}}</p>
+        </div>
+    
+        <div class="col-3">
+            <p>UMRN : {{paymentSummaryReportForm.value.sumPayUMRN}}</p>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Queue Status</th>
+              <th>Count</th>
+              <th>Total Amount</th>
+            </tr>            
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let data of summaryReportData">
+                <td>{{data.QUEUECODE}}</td>
+                <td>{{data.COUNT}}</td>
+                <td>{{data.AMOUNT | number:'.2-2'}}</td>
+            </tr>
+            
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <th>Total</th>
+              <th> {{totalCount}} </th>
+              <th>{{totalAmount | number:'.2-2'}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="col-12 text-center grid-header mt-2">
+          <span> Download this Summary Report as:
+              <svg-icon (click)="downoladSummaryViewReport(paymentSummaryReportForm.value)" class="cursorPointer" src="assets/images/xls.svg "></svg-icon>
+            </span>
+      </div>
+    </div>
+</div>
+    
+              
+<!-- Table with No records -->
+<div class="noRecords text-center" *ngIf="noRecords">
+    <div>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <h4>No Records found</h4>
+      <p>No relevant records found on payment</p>
+    </div>
+  </div>
+ 
+

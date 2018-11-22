@@ -1,0 +1,170 @@
+<!-- <div class="page-header">
+    <div class="row  my-3">
+        <div class="col-md-8">
+            <span class="backnavIcon" [routerLink]="['/bulkupload']"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <h4 class="text-orange">NACH Payment <span><i class="fa fa-angle-right" aria-hidden="true"></i> Payment Uploaded files</span></h4>
+        </div>
+
+        <div class="col-md-4 text-right small align-self-end">
+        </div>
+    </div>
+    <hr>
+</div> -->
+
+<div class="paymentGrid tableLayout mt-3">
+    <div class="row">
+        <div class="col-12">
+            <mat-card>
+                <div class="grid-header">
+                    <div class="row">
+                        <div class="col-3 align-self-start text-left">
+                            <h5 class="text-blue">Payment Files Summary</h5>
+                        </div>
+
+                        <div class="col-9 align-self-end text-right" *ngIf="doesGridDataExistForSearch">
+                            <span class="mr-3">{{minRecords}} to {{maxRecords}} out of {{totalRecords}}</span>
+                            <label for="email">Result per page:</label>
+                            <select class="form-control" [(value)]="selectedresultRangeValue" (change)="pageSizeChanged($event)">
+                                <option *ngFor="let selectRange of resultRangeValue" [value]="selectRange.value">{{
+                                    selectRange.viewValue }}</option>
+                            </select>
+
+                            <label for="email" class="ml-4">Payment Type:</label>
+                            <select class="form-control paymentType" [(ngModel)]="chosenValue" (change)="onUsorOffUs()">
+                                <option value="OnUs">OnUs</option>
+                                <option value="OffUs">OffUs</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2" *ngIf="chosenValue==='OffUs'">
+                    <div class="col-12 px-0">
+                        <div class="float-searchicon" (click)="gridsearch = !gridsearch"><span matTooltip="Search for particular column"><i
+                                    class="fa fa-search" aria-hidden="true"></i> </span></div>
+                        <div class="slide-table">
+                             <div id="container-table" #tablescroll>
+                                            <span class="font10 text-blue pl-3">Select All</span>
+                                            <table class="table table-bordered table-striped ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <mat-checkbox (change)="selectAll()" [(ngModel)]="selectAllValue"></mat-checkbox>
+                                                        </th>
+                                                        <th *ngFor="let header of paymentUploadHeader">{{getSplitWord(header)}}<span>{{item1.join("
+                                                                ")}}</span><br><span>{{item2.join(" ")}}</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="gridSearch" *ngIf="gridsearch">
+                                                        <td></td>
+                                                        <td><input type="text" class="form-control" [(ngModel)]="fileName"
+                                                                (blur)="gridSearchFunction(fileName)"></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                        <td><input type="text" class="form-control" disabled></td>
+                                                    </tr>
+                                                    <tr *ngFor="let data of paymentUploadFileData; let i=index">
+                                                        <td>
+                                                            <mat-checkbox (change)="selectOne(i, checkbox._checked)" #checkbox></mat-checkbox>
+                                                        </td>  
+                                                        <td>{{data?.BATCH_FILE_NAME}}</td>
+                                                        <td>{{data?.ERR_500}}</td>
+                                                        <!-- <td>{{data[1]*1+data[2]*1+data[3]*1+data[4]*1+data[5]*1}}</td> -->
+
+                                                        <td><a (click)="view(data.BATCH_FILE_NAME,data.PSA_500,'PSA-500')" matTooltip="Click to view">{{data?.PSA_500}}</a></td>
+                                                        <td>{{data?.REJ_500}}</td>
+                                                        <td>{{data?.SPO_PAK_500}}</td>
+                                                        <td>{{data?.PAK_500}}</td>
+                                                        <td>{{data?.NAK_500}}</td>
+                                                        <td>{{data?.ACK_500}}</td>
+                                                        <td>{{data?.PAY_503}}</td>
+                                                        <td>{{data?.NPY_503}}</td>
+                                                        <td>{{data?.EXT_503}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data
+                                                Found. Please refine your search!</mat-error>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="chosenValue==='OnUs'">
+                    <div class="col-12 px-0">
+                        <div class="float-searchicon" (click)="gridsearch = !gridsearch"><span matTooltip="Search for particular column"><i
+                                    class="fa fa-search" aria-hidden="true"></i> </span></div>
+                        <div class="slide-table">
+                            <div class="float-buttons">
+                                <button id="slideleft" (click)="scrollLeft()">
+                                    <span><</span>
+                                </button>
+                            </div>
+                                <div id="container-table" #tablescroll>
+                                <span class="font10 text-blue pl-3">Select All</span>
+                                <table class="table table-bordered table-striped ">
+                                    <thead>
+                                        <tr>
+                                            <th *ngFor="let header of paymentUploadOnUsHeader">{{getSplitWord(header)}}<span>{{item1.join("
+                                                    ")}}</span><br><span>{{item2.join(" ")}}</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="gridSearch" *ngIf="gridsearch">
+                                            <td><input type="text" class="form-control" [(ngModel)]="fileName"
+                                                    (blur)="gridSearchFunction(fileName)"></td>
+                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td><input type="text" class="form-control" disabled></td>
+                                        </tr>
+                                        <tr *ngFor="let data of paymentUploadFileData; let i=index">
+                                            <td>{{data?.BATCH_FILE_NAME}}</td>
+                                            <td>{{data?.ERR_500}}</td>
+                                            <td><a (click)="view(data.BATCH_FILE_NAME,data.PSA_500, 'PSA-500')" matTooltip="Click to view">{{data?.PSA_500}}</a></td>
+
+                                            <td><a (click)="view(data.BATCH_FILE_NAME,data.PVE_500, 'PVE-500')" matTooltip="Click to view">{{data?.PVE_500}}</a></td>
+                                            <td>{{data?.PAY_503}}</td>
+                                            <td>{{data?.NPY_503}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <mat-error class="text-center" *ngIf="!doesGridDataExistForSearch">No Data
+                                    Found. Please refine your search!</mat-error>
+                            </div>
+                            <div class="float-buttons">
+                                <button id="slideright" (click)="scrollRight()">
+                                    <span>></span>
+                                </button>
+                            </div>                                
+                        </div>  
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-4" *ngIf="!noRecords">
+                    <div class="mr-auto"></div>
+                    <div class="col-4" *ngIf="userRole==='CHECKER' && chosenValue!=='OnUs'">
+                        <button class="btn releaseBtn mr-3" (click)="release()">Release</button>
+                        <button class="btn removeBtn" (click)="remove()">Remove</button>
+                    </div>
+                    <div class="col-3 text-right mandatePagination" *ngIf="doesGridDataExistForSearch">
+                        <button class="btn btn-default " [disabled]="pageNumber==1" (click)="previousClicked()"><i
+                                class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</button>
+                        <!-- <input type="text" class="text-center paginationInput form-control" style="width:30px;" [value]="pageNumber"> -->
+
+                        {{pageNumber}}/ {{totalPages}}
+                        <button class="btn btn-default " [disabled]="pageNumber==totalPages" (click)="nextClicked()">Next
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

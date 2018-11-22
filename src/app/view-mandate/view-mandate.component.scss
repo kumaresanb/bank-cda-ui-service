@@ -1,0 +1,27 @@
+.viewMandateSec{
+    .mat-card{padding: 15px;border-bottom-left-radius: 15px;min-height: 350px;margin-bottom: 2rem;}
+    
+    .image-upload > input{display: none;}
+    .image-upload p{font-size: 13px;margin-top: 0.4rem;}
+    .image-upload img{cursor: pointer;}
+    .thumbnailImg{border:2px dashed #888;width:30px;height:30px;margin-top:0.8rem;cursor: pointer;}
+    .mat-card.formBlock{border-bottom-left-radius: 0px;border-top-right-radius: 15px;border-top:1px solid #e6e6e6;}
+    .formBlock{
+        label{margin-bottom: 0px;font-size: 0.75rem;color:#00476d;}
+        h5{font-size: 0.9rem;}
+        .mat-checkbox{font-size: 12px !important;position: relative;top: 0px;}  
+        .form-group{margin-bottom: 0;}
+        .sub-text{font-size: 11px;color:#ff8500;}
+    }
+
+    .verifyBtn{border-radius: 3px;padding: 3px 5px;vertical-align: sub;font-size: 11px; margin-top: 14px;
+        margin-left: -20px;box-shadow: none;border: 1px solid #8e8d8d;    
+    }
+
+    .verifyTxt{ 
+        margin-bottom: 0px; position: absolute;top: -23px;color: #ff8500;font-size: 12px;
+    }
+   
+}
+
+.mt-12{margin-top:1.2rem !important;}
